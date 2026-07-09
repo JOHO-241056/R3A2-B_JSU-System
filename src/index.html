@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ABC社Webサイト保守管理システム</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+	<header class="navbar navbar-expand-md mb-auto border-bottom">
+		<div class="container-fluid">
+			<a class="navbar-brand me-1" href="index.html">ABC社保守管理システム</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<div class="navbar-nav ms-auto">
+					<a class="nav-link active" aria-current="page" href="index.html">トップ画面</a>
+					<a class="nav-link" href="quotation.index.html">JSU見積機能</a>
+					<a class="nav-link" href="contract.index.html">保守契約</a>
+					<a class="nav-link" href="incident-management.index.html">障害対応</a>
+					<span class="navbar-text">[技術部 山田太郎]</span>
+				</div>
+			</div>
+	</header>
+	<div class="container-fluid">
+		<div class="row">
+			<main class="col-12 px-md-4 py-4">
+				<div class="pb-2 mb-4 border-bottom">
+					<h1>ダッシュボード</h1>
+				</div>
+				<!-- <div class="row mb-4">
+					<div class="col-md-3 mb-2">
+						<button class="btn btn-primary w-100 py-3 shadow-sm">＋ 新規見積依頼を登録</button>
+					</div>
+					<div class="col-md-3 mb-2">
+						<button class="btn btn-danger w-100 py-3 shadow-sm">⚠️ 障害インシデントを登録</button>
+					</div>
+					<div class="col-md-3 mb-2">
+						<button class="btn btn-success w-100 py-3 shadow-sm">📦 新規保守製品を登録</button>
+					</div>
+				</div> -->
+				<div class="row">
+					<div class="col-md-8">
+						<div class="card shadow-sm mb-4 border-danger">
+							<div class="card-header bg-danger text-white fw-bold">🔔 要対応タスク</div>
+							<ul class="list-group list-group-flush">
+								<li
+									class="list-group-item d-flex justify-content-between align-items-center list-group-item-warning py-3">
+									<div>
+										<span class="fw-bold">【重要】</span> ABC社のシステムで障害が発生しています
+									</div>
+									<span class="badge bg-danger rounded-pill fs-6">1件</span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between align-items-center py-3">
+									<div>営業部から保守契約の内容確認の依頼が届いています</div>
+									<span class="badge bg-primary rounded-pill fs-6">2件</span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between align-items-center py-3">
+									<div>保守会社へ提出済の見積依頼書（回答待ち）</div>
+									<span class="badge bg-secondary rounded-pill fs-6">5件</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<!-- <div class="col-md-4">
+						<div class="card shadow-sm mb-4">
+							<div class="card-header bg-secondary text-white fw-bold"> ℹ️ 全体のお知らせ </div>
+							<div class="card-body">
+								<h6 class="card-title fw-bold">システムメンテナンスのお知らせ</h6>
+								<p class="card-text small text-muted">2026年6月15日(土) 22:00〜24:00の間、サーバーメンテナンスのため当システムは利用できません。</p>
+								<hr>
+								<h6 class="card-title fw-bold text-danger">A社製サーバーの脆弱性について</h6>
+								<p class="card-text small text-muted">パッチ適用対象の機器一覧は<a href="#">こちら</a>から確認してください。</p>
+							</div>
+						</div>
+					</div> -->
+				</div>
+			</main>
+		</div>
+	</div>
+	<script src="js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
