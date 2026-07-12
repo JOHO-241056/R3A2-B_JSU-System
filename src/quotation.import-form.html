@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>保守会社見積書入力 | ABC社Webサイト保守管理システム</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+<header class="navbar navbar-expand-md mb-auto border-bottom">
+    <div class="container-fluid">
+        <a class="navbar-brand me-1" href="index.html">ABC社保守管理システム</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="index.html">トップ画面</a>
+                <a class="nav-link active" aria-current="page" href="quotation.index.html">JSU見積機能</a>
+                <a class="nav-link" href="contract.index.html">保守契約</a>
+                <a class="nav-link" href="incident-management.index.html">障害対応</a>
+                <span class="navbar-text">[技術部 山田太郎]</span>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <main class="col-12 px-4 py-4">
+            <div class="border-bottom">
+                <h1>保守会社見積書入力</h1>
+                <p>保守会社から受領した見積依頼書をシステムに登録します。</p>
+            </div>
+            <div class="mt-4 border-bottom">
+                <button type="submit" class="btn btn-primary">ファイルを選択（pdf）</button>
+                <p>ファイル名：173440295.pdf</p>
+            </div>
+
+            <div class="mt-4">
+                <div class="table-responsive">
+                    <table class="table table-striped caption-top">
+                        <caption>読み取り結果</caption>
+                        <tbody>
+                        <tr>
+                            <th scope="row">見積番号</th>
+                            <td>173440295</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">保守会社名</th>
+                            <td>ビューケム</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped caption-top text-nowrap">
+                        <caption>製品情報</caption>
+<!--                        <thead>-->
+<!--                        <tr>-->
+<!--                            <th scope="col">項番</th>-->
+<!--                            <th scope="col">製品ID</th>-->
+<!--                            <th scope="col">製品名</th>-->
+<!--                            <th scope="col">製造番号</th>-->
+<!--                            <th scope="col">メーカー/ベンダ</th>-->
+<!--                            <th scope="col">導入日</th>-->
+<!--                            <th scope="col">契約開始日</th>-->
+<!--                            <th scope="col">契約期間</th>-->
+<!--                            <th scope="col">保守タイプ</th>-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                        <tr>-->
+<!--                            <td>1</td>-->
+<!--                            <td>#N/A</td>-->
+<!--                            <td>QISCOM2621XM</td>-->
+<!--                            <td>JMX0628K42T</td>-->
+<!--                            <td>QISCOM</td>-->
+<!--                            <td>2016/04/01</td>-->
+<!--                            <td>2018/04/01</td>-->
+<!--                            <td>1年間</td>-->
+<!--                            <td>9-17 オンサイト</td>-->
+<!--                        </tr>-->
+<!--                        </tbody>-->
+                    </table>
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">PDFで出力</button>
+            </div>
+        </main>
+    </div>
+</div>
+<script src="js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
