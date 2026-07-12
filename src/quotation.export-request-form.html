@@ -2,67 +2,125 @@
 <html lang="ja">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>保守会社見積依頼書出力 | ABC社Webサイト保守管理システム</title>
-	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<link href="css/style.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>保守会社見積依頼書出力 | ABC社Webサイト保守管理システム</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
-	<header class="navbar navbar-expand-md mb-auto border-bottom">
-		<div class="container-fluid">
-			<a class="navbar-brand me-1" href="index.html">ABC社保守管理システム</a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<div class="navbar-nav ms-auto">
-					<a class="nav-link" href="index.html">トップ画面</a>
-					<a class="nav-link active" aria-current="page" href="quotation.index.html">JSU見積機能</a>
-					<a class="nav-link" href="contract.index.html">保守契約</a>
-					<a class="nav-link" href="incident-management.index.html">障害対応</a>
-					<span class="navbar-text">[技術部 山田太郎]</span>
-				</div>
-			</div>
-	</header>
-	<div class="container-fluid">
-		<div class="row">
-			<main class="col-12 px-md-4 py-4">
-				<div class="mb-4 border-bottom">
-					<h1>保守会社見積依頼書出力</h1>
-					<p>保守会社へ送信する見積依頼書をPDFで出力します。</p>
-				</div>
-				<!-- <div class="row mb-4">
-					<div class="col-md-3 mb-2">
-						<button class="btn btn-primary w-100 py-3 shadow-sm">＋ 新規見積依頼を登録</button>
-					</div>
-					<div class="col-md-3 mb-2">
-						<button class="btn btn-danger w-100 py-3 shadow-sm">⚠️ 障害インシデントを登録</button>
-					</div>
-					<div class="col-md-3 mb-2">
-						<button class="btn btn-success w-100 py-3 shadow-sm">📦 新規保守製品を登録</button>
-					</div>
-				</div> -->
-				<form class="pb-4 mb-4 border-bottom">
-					<div class="mb-3">
-						<label for="company" class="form-label">保守会社</label>
-						<input type="text" class="form-control" id="company" aria-describedby="companyHelp">
-						<div id="companyHelp" class="form-text">見積依頼をしたい保守会社の名称を入力してください。</div>
-					</div>
-					<button type="submit" class="btn btn-primary">見積依頼書を出力</button>
-				</form>
+<header class="navbar navbar-expand-md mb-auto border-bottom">
+    <div class="container-fluid">
+        <a class="navbar-brand me-1" href="index.html">ABC社保守管理システム</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="index.html">トップ画面</a>
+                <a class="nav-link active" aria-current="page" href="quotation.index.html">JSU見積機能</a>
+                <a class="nav-link" href="contract.index.html">保守契約</a>
+                <a class="nav-link" href="incident-management.index.html">障害対応</a>
+                <span class="navbar-text">[技術部 山田太郎]</span>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <main class="col-12 px-4 py-4">
+            <div class="border-bottom">
+                <h1>保守会社見積依頼書出力</h1>
+                <p>保守会社へ送付する見積依頼書をPDFで出力します。</p>
+            </div>
+            <!-- <div class="row mb-4">
+                <div class="col-md-3 mb-2">
+                    <button class="btn btn-primary w-100 py-3 shadow-sm">＋ 新規見積依頼を登録</button>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <button class="btn btn-danger w-100 py-3 shadow-sm">⚠️ 障害インシデントを登録</button>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <button class="btn btn-success w-100 py-3 shadow-sm">📦 新規保守製品を登録</button>
+                </div>
+            </div> -->
+            <form class="pb-4 mt-4 border-bottom">
+                <div class="mb-3">
+                    <label for="jsuQuotationId" class="form-label">JSU見積ID</label>
+                    <input type="text" class="form-control" id="jsuQuotationId" aria-describedby="jsuQuotationIdHelp">
+                    <div id="jsuQuotationIdHelp" class="form-text">JSU見積IDを入力してください。</div>
+                </div>
+                <div class="mb-3">
+                    <label for="company" class="form-label">保守会社</label>
+                    <input type="text" class="form-control" id="company" aria-describedby="companyHelp">
+                    <div id="companyHelp" class="form-text">見積依頼をしたい保守会社の名称を入力してください。</div>
+                </div>
+                <button type="submit" class="btn btn-primary me-1">入力内容を確定</button>
+                <button type="submit" class="btn btn-primary">PDFで出力</button>
+            </form>
 
-				<p>保守会社名：ビューケム</p>
-				<p>住所：〒164-5432 東京都中野区下高田1-2-3</p>
-				<p>TEL：03-7778-3251</p>
-				<p>メールアドレス：aa@viewcom.com</p>
-				<p>担当者名：佐藤</p>
-			</main>
-		</div>
-	</div>
-	<script src="js/bootstrap.bundle.min.js"></script>
+            <div class="mt-4">
+                <div class="table-responsive">
+                    <table class="table table-striped caption-top">
+                        <caption>入力情報</caption>
+                        <tbody>
+                        <tr>
+                            <th scope="row">JSU見積ID</th>
+                            <td>NNNNNNNNNN</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">保守会社名</th>
+                            <td>ビューケム</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">住所</th>
+                            <td>〒164-5432 東京都中野区下高田1-2-3</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">電話番号</th>
+                            <td>03-7778-3251</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">メールアドレス</th>
+                            <td>aa@viewcom.com</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">担当者名</th>
+                            <td>佐藤</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped caption-top">
+                        <caption>見積依頼対象製品</caption>
+                        <tbody>
+                        <tr>
+                            <th scope="col">項番</th>
+                            <th scope="col">製品ID</th>
+                            <th scope="col">製品名</th>
+                            <th scope="col">製造番号</th>
+                            <th scope="col">メーカー/ベンダ</th>
+                            <th scope="col">導入日</th>
+                            <th scope="col">契約開始日</th>
+                            <th scope="col">契約期間</th>
+                            <th scope="col">保守タイプ</th>
+                        </tr>
+                        <tr>
+                            <td>ビューケム</td>
+                            <td>ビューケム</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<script src="js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
