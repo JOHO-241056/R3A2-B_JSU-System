@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>保守会社見積比較・契約先確定 | ABC社Webサイト保守管理システム</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+<header class="navbar navbar-expand-md mb-auto border-bottom">
+    <div class="container-fluid">
+        <a class="navbar-brand me-1" href="index.html">ABC社保守管理システム</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="index.html">トップ画面</a>
+                <a class="nav-link active" aria-current="page" href="quotation.index.html">JSU見積機能</a>
+                <a class="nav-link" href="contract.index.html">保守契約</a>
+                <a class="nav-link" href="incident-management.index.html">障害対応</a>
+                <span class="navbar-text">[技術部 山田太郎]</span>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <main class="col-12 px-4 py-4">
+            <a href="quotation.index.html" class="btn btn-outline-secondary shadow-sm">← 戻る</a>
+            <div class="border-bottom mt-4">
+                <h1>見積比較・契約先確定</h1>
+                <p>保守会社から受領した見積を製品ごとに比較し、契約先を確定します。</p>
+            </div>
+            <form class="pb-4 mt-4 border-bottom">
+                <div class="mb-3">
+                    <label for="jsuQuotationId" class="form-label">JSU見積ID</label>
+                    <input type="text" class="form-control" id="jsuQuotationId" aria-describedby="jsuQuotationIdHelp">
+                    <div id="jsuQuotationIdHelp" class="form-text">JSU見積IDを入力してください。</div>
+                </div>
+                <button type="submit" class="btn btn-primary me-1">入力内容を確定</button>
+                <button type="submit" class="btn btn-primary">契約先を確定</button>
+            </form>
+
+            <div class="mt-4">
+                <p>JSU見積ID：#N/A</p>
+
+                <div class="table-responsive">
+                    <table class="table table-striped caption-top text-nowrap">
+                        <caption>製品情報</caption>
+                        <thead class="text-center align-middle">
+                        <tr>
+                            <th scope="col">項番</th>
+                            <th scope="col">製品名</th>
+                            <th scope="col">製造番号</th>
+                            <th scope="col">日本ﾋｭｰﾙ･ﾍﾞｯｶｰ<br><small>JHP18-1502</small></th>
+                            <th scope="col">ネットアイシステムズ<br><small>M2018JSU-01</small></th>
+                            <th scope="col">ビューケム<br><small>183440295</small></th>
+                            <th scope="col">～<br><small>～</small></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="text-center">
+                            <td>︙</td>
+                            <td>︙</td>
+                            <td>︙</td>
+                            <td>︙</td>
+                            <td>︙</td>
+                            <td>︙</td>
+                            <td>︙</td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-center">195</td>
+                            <td>QISCOM/1720</td>
+                            <td>JMX0602114YE</td>
+                            <td class="text-end"></td>
+                            <td>
+                                <div class="form-check d-flex justify-content-end align-items-center gap-2 m-0">
+                                    <input class="form-check-input vendor-select" type="radio" name="select_195"
+                                           id="radio_195_neteye" value="neteye" data-price="52600">
+                                    <label class="form-check-label" for="radio_195_neteye" style="cursor: pointer;">\52,600</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-check d-flex justify-content-end align-items-center gap-2 m-0">
+                                    <input class="form-check-input vendor-select" type="radio" name="select_195"
+                                           id="radio_195_beauchem" value="beauchem" data-price="51156">
+                                    <label class="form-check-label" for="radio_195_beauchem" style="cursor: pointer;">\51,156</label>
+                                </div>
+                            </td>
+                            <td class="text-center">～</td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-center">198</td>
+                            <td>QISCOM/3620</td>
+                            <td>JMX0649L6Q0</td>
+                            <td class="text-end"></td>
+                            <td>
+                                <div class="form-check d-flex justify-content-end align-items-center gap-2 m-0">
+                                    <input class="form-check-input vendor-select" type="radio" name="select_198"
+                                           id="radio_198_neteye" value="neteye" data-price="113300">
+                                    <label class="form-check-label" for="radio_198_neteye" style="cursor: pointer;">\113,300</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-check d-flex justify-content-end align-items-center gap-2 m-0">
+                                    <input class="form-check-input vendor-select" type="radio" name="select_198"
+                                           id="radio_198_beauchem" value="beauchem" data-price="105718">
+                                    <label class="form-check-label" for="radio_198_beauchem" style="cursor: pointer;">\105,718</label>
+                                </div>
+                            </td>
+                            <td class="text-center">～</td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-center">199</td>
+                            <td>QISCOM/3620</td>
+                            <td>JMX0649LOY9</td>
+                            <td class="text-end"></td>
+                            <td>
+                                <div class="form-check d-flex justify-content-end align-items-center gap-2 m-0">
+                                    <input class="form-check-input vendor-select" type="radio" name="select_199"
+                                           id="radio_199_neteye" value="neteye" data-price="113300">
+                                    <label class="form-check-label" for="radio_199_neteye" style="cursor: pointer;">\113,300</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-check d-flex justify-content-end align-items-center gap-2 m-0">
+                                    <input class="form-check-input vendor-select" type="radio" name="select_199"
+                                           id="radio_199_beauchem" value="beauchem" data-price="105718">
+                                    <label class="form-check-label" for="radio_199_beauchem" style="cursor: pointer;">\105,718</label>
+                                </div>
+                            </td>
+                            <td class="text-center">～</td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-center">213</td>
+                            <td>WP/ProQurve Switch 2424</td>
+                            <td>HH2081-RPS</td>
+                            <td>
+                                <div class="form-check d-flex justify-content-end align-items-center gap-2 m-0">
+                                    <input class="form-check-input vendor-select" type="radio" name="select_213"
+                                           id="radio_213_hp" value="hp" data-price="136000">
+                                    <label class="form-check-label" for="radio_213_hp"
+                                           style="cursor: pointer;">\136,000</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-check d-flex justify-content-end align-items-center gap-2 m-0">
+                                    <input class="form-check-input vendor-select" type="radio" name="select_213"
+                                           id="radio_213_neteye" value="neteye" data-price="136000">
+                                    <label class="form-check-label" for="radio_213_neteye" style="cursor: pointer;">\136,000</label>
+                                </div>
+                            </td>
+                            <td class="text-end"></td>
+                            <td class="text-center">～</td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-center">214</td>
+                            <td>WP/ProQurve Switch 2524</td>
+                            <td>HH9298-MPS</td>
+                            <td>
+                                <div class="form-check d-flex justify-content-end align-items-center gap-2 m-0">
+                                    <input class="form-check-input vendor-select" type="radio" name="select_214"
+                                           id="radio_214_hp" value="hp" data-price="136000">
+                                    <label class="form-check-label" for="radio_214_hp"
+                                           style="cursor: pointer;">\136,000</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-check d-flex justify-content-end align-items-center gap-2 m-0">
+                                    <input class="form-check-input vendor-select" type="radio" name="select_214"
+                                           id="radio_214_neteye" value="neteye" data-price="136000">
+                                    <label class="form-check-label" for="radio_214_neteye" style="cursor: pointer;">\136,000</label>
+                                </div>
+                            </td>
+                            <td class="text-end"></td>
+                            <td class="text-center">～</td>
+                        </tr>
+
+                        <tr class="text-center">
+                            <td>︙</td>
+                            <td>︙</td>
+                            <td>︙</td>
+                            <td>︙</td>
+                            <td>︙</td>
+                            <td>︙</td>
+                            <td>︙</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 💡 金額表示の部分に ID を付与して、JSから書き換えられるようにしました -->
+                <p class="fs-5 mt-2">見積金額合計：<span id="totalPrice" class="fw-bold">\0</span></p>
+                <p>入力内容を確認し、問題なければ契約先を確定してください。</p>
+                <button type="submit" class="btn btn-primary">契約先を確定</button>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- 💡 自動計算用のJavaScript -->
+<script>
+    // 全てのラジオボタン要素を取得
+    const selectButtons = document.querySelectorAll('.vendor-select');
+    const totalPriceSpan = document.getElementById('totalPrice');
+
+    selectButtons.forEach(radio => {
+        radio.addEventListener('change', () => {
+            let total = 0;
+
+            // 現在チェックが入っているすべてのラジオボタンをループ
+            document.querySelectorAll('.vendor-select:checked').forEach(checkedRadio => {
+                // data-price属性から数値を取得して足す
+                total += parseInt(checkedRadio.dataset.price);
+            });
+
+            // ¥マークと3桁区切りのカンマをつけて画面に表示
+            totalPriceSpan.innerText = '\\' + total.toLocaleString();
+        });
+    });
+</script>
+<script src="js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
