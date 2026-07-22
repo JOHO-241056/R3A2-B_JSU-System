@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>保守契約依頼書入力画面</title>
+  <!-- 営業部専用のCSSを読み込み -->
+  <link rel="stylesheet" href="keiyakuiraisyo.css">
+</head>
+<body>
+  <div class="container">
+    <h2 class="page-title">保守契約依頼書入力画面（営業部）</h2>
+
+    <!-- コントロールパネル（保守会社ごとの切り替え） -->
+    <div class="control-panel">
+      <label class="control-label">保守契約明細ID:</label>
+      <select class="form-select">
+        <option selected>MEISAI-202607-001（更新対象: 2件）</option>
+      </select>
+      <button class="btn btn-default btn-small ml-10">表示</button>
+    </div>
+
+    <!-- 依頼書入力フォーム（製品情報・契約期間・見積金額等の入力） -->
+    <h3 class="section-title">依頼内容（株式会社ABC）</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>製品ID</th>
+          <th>製品名</th>
+          <th>契約開始日</th>
+          <th>契約満了日</th>
+          <th class="col-price">見積金額(円)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 1行目 -->
+        <tr>
+          <td>PRD-001</td>
+          <td>メインサーバーA</td>
+          <td>2026/10/01</td>
+          <td>2027/09/30</td>
+          <td class="text-right">100,000</td>
+        </tr>
+        <!-- 2行目 -->
+        <tr>
+          <td>PRD-045</td>
+          <td>スイッチC</td>
+          <td>2026/10/01</td>
+          <td>2027/09/30</td>
+          <td class="text-right">200,000</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 添付ファイルや全体備考など（実務でよく使われる機能） -->
+    <div class="contact-box">
+      <label class="contact-label">購買部への連絡事項:</label>
+      <textarea rows="3" class="form-textarea" placeholder="特記事項があれば入力してください"></textarea>
+    </div>
+
+    <!-- アクションボタンエリア -->
+    <div class="action-area">
+      <!-- 左側：戻るボタン（つなぎのコード） -->
+      <button onclick="alert('ホーム画面（後日作成）へ遷移します。');" class="btn btn-default">
+        &laquo; ホーム画面へ戻る
+      </button>
+
+      <!-- 右側：保存・確定ボタン -->
+      <div class="action-right">
+        <button class="btn btn-default mr-10">
+          一時保存する
+        </button>
+        <!-- このボタンを押すことで、仕様書にある「データベースへの登録」「進捗管理情報への記録（契約手続き中）」「購買への通知」が裏側で走る想定 -->
+        <button onclick="alert('依頼書をデータベースに登録し、進捗を「契約手続き中」に更新して購買部へ通知します。');" class="btn btn-primary">
+          依頼書を登録し、購買部へ通知
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
