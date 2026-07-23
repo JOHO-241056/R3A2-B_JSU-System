@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>保守契約書 アップロード画面</title>
+  <link rel="stylesheet" href="upload.css">
+</head>
+<body>
+  <div class="container">
+    <h2 class="page-title">保守契約書 アップロード画面（購買部）</h2>
+    <p>手元にある締結済みの保守契約書（PDF）を選択し、システムに登録してください。</p>
+
+    <div class="upload-container">
+      <!-- ファイル選択エリア -->
+      <div class="file-drop-area">
+        <div class="drop-icon">📄</div>
+        <p class="drop-text">ここにPDFファイルをドラッグ＆ドロップ<br>または</p>
+        <!-- hiddenで隠したinputをlabelでクリックさせる一般的な仕組み -->
+        <input type="file" accept=".pdf" class="file-input-hidden" id="file-upload">
+        <label for="file-upload" class="btn btn-outline">ファイルを選択</label>
+      </div>
+
+      <!-- データベースとの紐付け情報入力エリア -->
+      <div class="meta-data-area">
+        <h3 class="meta-title">登録情報の入力</h3>
+        <p style="font-size: 13px; color: #666; margin-bottom: 15px;">※アップロードするファイルとデータベースを紐づけるため、依頼書IDを入力してください。</p>
+        
+        <div class="form-group">
+          <label class="control-label">依頼書ID <span class="required">必須</span>:</label>
+          <input type="text" class="form-input" placeholder="例: REQ-2026-001">
+        </div>
+        <div class="form-group mt-15">
+          <label class="control-label">保守会社名:</label>
+          <input type="text" class="form-input" placeholder="例: 株式会社ABC（任意）">
+        </div>
+        <div class="form-group mt-15">
+          <label class="control-label">特記事項:</label>
+          <input type="text" class="form-input form-input-wide" placeholder="メモや備考などがあれば入力">
+        </div>
+      </div>
+    </div>
+
+    <!-- アクションボタンエリア -->
+    <div class="action-area">
+      <button onclick="alert('ホーム画面へ遷移します。');" class="btn btn-default">
+        &laquo; ホーム画面へ戻る
+      </button>
+      <button onclick="alert('ファイルと入力情報をデータベースに登録しました！');" class="btn btn-primary">
+        アップロードして登録
+      </button>
+    </div>
+  </div>
+</body>
+</html>

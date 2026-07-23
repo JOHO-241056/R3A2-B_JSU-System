@@ -1,0 +1,178 @@
+@charset "UTF-8";
+
+body {
+  font-family: sans-serif;
+  color: #333;
+}
+
+.container {
+  max-width: 900px;
+  margin: 30px auto;
+}
+
+.page-title {
+  border-bottom: 2px solid #333;
+  padding-bottom: 10px;
+}
+
+.section-title {
+  font-size: 16px;
+  margin-bottom: 15px;
+  margin-top: 30px;
+}
+
+/* ==============================
+   検索パネル
+============================== */
+.search-panel {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.search-row {
+  display: flex;
+  align-items: center;
+}
+
+.search-label {
+  font-weight: bold;
+  margin-right: 10px;
+  width: 100px;
+}
+
+.form-input {
+  padding: 5px;
+  width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.form-input-date {
+  padding: 5px;
+  width: 130px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+/* ==============================
+   会社ごとのパネル（新規追加）
+============================== */
+.company-group-panel {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.company-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.company-name {
+  margin: 0;
+  font-size: 18px;
+}
+
+.req-id {
+  font-size: 14px;
+  font-weight: normal;
+  color: #666;
+  margin-left: 10px;
+}
+
+.total-amount {
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: right;
+}
+
+/* ==============================
+   テーブルスタイル
+============================== */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  margin-bottom: 0; /* パネル内で使うため下の余白を0に設定 */
+}
+
+.data-table th,
+.data-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  vertical-align: middle;
+}
+
+.data-table thead {
+  background-color: #e2d9f3; /* 購買部用の薄い紫色 */
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* ==============================
+   ボタン類
+============================== */
+.action-area {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 30px;
+}
+
+.btn {
+  padding: 8px 15px;
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+.btn-default {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  color: #333;
+}
+
+.btn-default:hover {
+  background-color: #f0f0f0;
+}
+
+.btn-dark {
+  background-color: #495057;
+  color: white;
+  border: none;
+}
+
+.btn-dark:hover {
+  background-color: #343a40;
+}
+
+.btn-outline {
+  background-color: #fff;
+  border: 1px solid #6f42c1;
+  color: #6f42c1;
+}
+
+.btn-outline:hover {
+  background-color: #6f42c1;
+  color: white;
+}
+
+/* ==============================
+   余白調整ユーティリティ
+============================== */
+.mb-10 { margin-bottom: 10px; }
+.ml-10 { margin-left: 10px; }
+.ml-20 { margin-left: 20px; }

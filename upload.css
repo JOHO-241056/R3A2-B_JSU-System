@@ -1,0 +1,153 @@
+@charset "UTF-8";
+
+body {
+  font-family: sans-serif;
+  color: #333;
+}
+
+.container {
+  max-width: 700px;
+  margin: 30px auto;
+}
+
+.page-title {
+  border-bottom: 2px solid #333;
+  padding-bottom: 10px;
+}
+
+/* ==============================
+   アップロードコンテナ全体
+============================== */
+.upload-container {
+  margin-top: 30px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+  padding: 30px;
+}
+
+/* ==============================
+   ファイルドロップエリア
+============================== */
+.file-drop-area {
+  border: 2px dashed #6f42c1; /* 購買部カラーの点線 */
+  border-radius: 5px;
+  padding: 40px 20px;
+  text-align: center;
+  background-color: #fff;
+  margin-bottom: 30px;
+}
+
+.drop-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.drop-text {
+  margin: 10px 0 20px 0;
+  color: #555;
+  line-height: 1.5;
+  font-weight: bold;
+}
+
+.file-input-hidden {
+  display: none; /* デフォルトの野暮ったい「ファイルを選択」ボタンを隠す */
+}
+
+/* ==============================
+   紐付け情報（メタデータ）入力エリア
+============================== */
+.meta-data-area {
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+}
+
+.meta-title {
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+}
+
+.control-label {
+  font-weight: bold;
+  width: 120px;
+}
+
+.required {
+  color: white;
+  background-color: #e53e3e; /* 赤系の必須バッジ */
+  font-size: 11px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  margin-left: 5px;
+}
+
+.form-input {
+  padding: 8px;
+  width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.form-input-wide {
+  width: 380px;
+}
+
+/* ==============================
+   ボタン類
+============================== */
+.action-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.btn {
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 14px;
+  display: inline-block;
+}
+
+.btn-default {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  color: #333;
+}
+
+.btn-default:hover {
+  background-color: #f0f0f0;
+}
+
+.btn-outline {
+  background-color: #fff;
+  border: 1px solid #6f42c1;
+  color: #6f42c1;
+  font-weight: bold;
+}
+
+.btn-outline:hover {
+  background-color: #f1edfa; /* ホバー時は薄い紫 */
+}
+
+.btn-primary {
+  background-color: #6f42c1;
+  color: white;
+  border: none;
+  font-weight: bold;
+}
+
+.btn-primary:hover {
+  background-color: #59339d;
+}
+
+/* 余白調整 */
+.mt-15 { margin-top: 15px; }
