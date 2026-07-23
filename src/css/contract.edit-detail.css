@@ -1,0 +1,131 @@
+@charset "UTF-8";
+
+/* 全体レイアウト */
+.container {
+  max-width: 800px;
+  margin: 30px auto;
+  font-family: sans-serif;
+}
+
+.page-title {
+  border-bottom: 2px solid #333;
+  padding-bottom: 10px;
+}
+
+/* 検索パネル */
+.search-panel {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.search-row {
+  margin-bottom: 10px;
+}
+
+.search-label {
+  font-weight: bold;
+  display: inline-block;
+  width: 130px;
+}
+
+.select-id {
+  padding: 5px;
+  margin-right: 10px;
+  width: 200px;
+}
+
+.input-keyword {
+  padding: 5px;
+  margin-right: 10px;
+  width: 185px;
+}
+
+/* テーブルスタイル */
+.detail-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.detail-table thead {
+  background-color: #e9ecef;
+}
+
+.detail-table th, 
+.detail-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* テーブル内特定カラム・要素 */
+.col-exclude {
+  width: 50px; /* 目安サイズを追加 */
+}
+
+.col-reason {
+  width: 200px;
+}
+
+.cell-center {
+  text-align: center;
+}
+
+.select-reason {
+  width: 100%;
+  padding: 5px;
+}
+
+.input-reason-other {
+  display: none;
+  margin-top: 5px;
+  width: 90%;
+  padding: 5px;
+}
+
+/* ボタン・アクションエリア */
+.action-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+}
+
+/* 共通ボタン基本設定 */
+.btn-search,
+.btn-back,
+.btn-save,
+.btn-submit {
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.btn-search {
+  padding: 5px 20px;
+  background-color: #495057;
+  color: white;
+  border: none;
+}
+
+.btn-back {
+  padding: 10px 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+
+.btn-save {
+  padding: 10px 20px;
+  margin-right: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+
+.btn-submit {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+}

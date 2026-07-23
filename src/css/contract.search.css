@@ -1,0 +1,155 @@
+@charset "UTF-8";
+
+/* ==============================
+   ベースのスタイル
+============================== */
+body {
+  font-family: sans-serif;
+  color: #333;
+}
+
+.container {
+  max-width: 900px;
+  margin: 30px auto;
+}
+
+.page-title {
+  border-bottom: 2px solid #333;
+  padding-bottom: 10px;
+}
+
+.section-title {
+  font-size: 16px;
+  margin-bottom: 10px;
+  margin-top: 30px;
+}
+
+/* ==============================
+   検索パネル類
+============================== */
+.search-panel {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.search-row {
+  display: flex;
+  align-items: center;
+}
+
+/* ==============================
+   フォーム要素
+============================== */
+.search-label {
+  font-weight: bold;
+  margin-right: 10px;
+  width: 100px; /* 文字数が増えたので少し幅を広げました */
+}
+
+.form-input {
+  padding: 5px;
+  width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.form-input-date {
+  padding: 5px;
+  width: 130px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+/* ==============================
+   テーブル
+============================== */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.data-table th,
+.data-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  vertical-align: middle;
+}
+
+.data-table thead {
+  background-color: #e2e3e5; 
+}
+
+.col-action {
+  width: 140px;
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* ==============================
+   ボタン・アクションエリア
+============================== */
+.action-area {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 30px;
+}
+
+.btn {
+  padding: 8px 15px;
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+.btn-default {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  color: #333;
+}
+
+.btn-default:hover {
+  background-color: #f0f0f0;
+}
+
+.btn-dark {
+  background-color: #495057;
+  color: white;
+  border: none;
+}
+
+.btn-dark:hover {
+  background-color: #343a40;
+}
+
+.btn-outline {
+  background-color: #fff;
+  border: 1px solid #6c757d;
+  color: #6c757d;
+}
+
+.btn-outline:hover {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-small {
+  padding: 5px 10px;
+  font-size: 13px;
+}
+
+/* 余白調整 */
+.mb-10 { margin-bottom: 10px; }
+.ml-10 { margin-left: 10px; }
+.ml-20 { margin-left: 20px; }

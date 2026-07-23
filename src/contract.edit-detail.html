@@ -7,6 +7,7 @@
   <meta name="description" content="技術部専用">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
+  <link href="css/contract.edit-detail.css" rel="stylesheet">
 </head>
 
 <body>
@@ -28,99 +29,95 @@
       </div>
     </div>
   </header>
-  <div style="max-width: 800px; margin: 30px auto;">
-    <h2 style="border-bottom: 2px solid #333; padding-bottom: 10px;">保守契約明細確認・編集画面（技術部）</h2>
+  <div class="container">
+    <h2 class="page-title">保守契約明細確認・編集画面（技術部）</h2>
     <p>確認する保守契約明細IDを選択、または製品IDを検索して、除外する製品にチェックを入れてください。</p>
 
     <!-- 検索・絞り込みパネル -->
-    <div
-      style="margin-bottom: 20px; padding: 15px; background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 5px;">
-      <div style="margin-bottom: 10px;">
-        <label style="font-weight: bold; display: inline-block; width: 130px;">保守契約明細ID: </label>
-        <select style="padding: 5px; margin-right: 10px; width: 200px;">
+    <div class="search-panel">
+      <div class="search-row">
+        <label class="search-label">保守契約明細ID: </label>
+        <select class="select-id">
           <option>すべて表示</option>
           <option selected>MEISAI-202607-001</option>
           <option>MEISAI-202607-002</option>
         </select>
       </div>
       <div>
-        <label style="font-weight: bold; display: inline-block; width: 130px;">製品ID検索: </label>
-        <input type="text" placeholder="例: PRD-001" style="padding: 5px; margin-right: 10px; width: 185px;">
-        <button
-          style="padding: 5px 20px; background-color: #495057; color: white; border: none; border-radius: 3px; cursor: pointer;">検索・表示</button>
+        <label class="search-label">製品ID検索: </label>
+        <input type="text" placeholder="例: PRD-001" class="input-keyword">
+        <button class="btn-search">検索・表示</button>
       </div>
     </div>
 
     <!-- 明細テーブル（選択・検索結果） -->
-    <table style="width: 100%; border-collapse: collapse; text-align: left; margin-bottom: 20px;">
-      <thead style="background-color: #e9ecef;">
+    <table class="detail-table">
+      <thead>
         <tr>
-          <th style="border: 1px solid #ccc; padding: 10px;">除外</th>
-          <th style="border: 1px solid #ccc; padding: 10px; width: 200px;">除外理由</th>
-          <th style="border: 1px solid #ccc; padding: 10px;">製品ID</th>
-          <th style="border: 1px solid #ccc; padding: 10px;">製品名</th>
-          <th style="border: 1px solid #ccc; padding: 10px;">保守会社</th>
-          <th style="border: 1px solid #ccc; padding: 10px;">契約満了日</th>
+          <th class="col-exclude">除外</th>
+          <th class="col-reason">除外理由</th>
+          <th>製品ID</th>
+          <th>製品名</th>
+          <th>保守会社</th>
+          <th>契約満了日</th>
+          <th>見積金額(円)</th>
         </tr>
       </thead>
       <tbody>
         <!-- 1行目 -->
         <tr>
-          <td style="border: 1px solid #ccc; padding: 10px; text-align: center;"><input type="checkbox"></td>
-          <td style="border: 1px solid #ccc; padding: 10px;">
-            <select style="width: 100%; padding: 5px;"
+          <td class="cell-center"><input type="checkbox"></td>
+          <td>
+            <select class="select-reason"
               onchange="this.nextElementSibling.style.display = (this.value === 'その他') ? 'block' : 'none';">
               <option value="">選択してください</option>
               <option value="リプレース予定">リプレース予定</option>
               <option value="廃棄予定">廃棄予定</option>
               <option value="その他">その他</option>
             </select>
-            <input type="text" placeholder="理由を入力してください"
-              style="display: none; margin-top: 5px; width: 90%; padding: 5px;">
+            <input type="text" placeholder="理由を入力してください" class="input-reason-other">
           </td>
-          <td style="border: 1px solid #ccc; padding: 10px;">PRD-001</td>
-          <td style="border: 1px solid #ccc; padding: 10px;">メインサーバーA</td>
-          <td style="border: 1px solid #ccc; padding: 10px;">株式会社ABC</td>
-          <td style="border: 1px solid #ccc; padding: 10px;">2026/09/30</td>
+          <td>PRD-001</td>
+          <td>メインサーバーA</td>
+          <td>株式会社ABC</td>
+          <td>2026/09/30</td>
+          <td>100,000</td>
         </tr>
         <!-- 2行目 -->
         <tr>
-          <td style="border: 1px solid #ccc; padding: 10px; text-align: center;"><input type="checkbox" checked></td>
-          <td style="border: 1px solid #ccc; padding: 10px;">
-            <select style="width: 100%; padding: 5px;"
+          <td class="cell-center"><input type="checkbox" checked></td>
+          <td>
+            <select class="select-reason"
               onchange="this.nextElementSibling.style.display = (this.value === 'その他') ? 'block' : 'none';">
               <option value="">選択してください</option>
               <option value="リプレース予定" selected>リプレース予定</option>
               <option value="廃棄予定">廃棄予定</option>
               <option value="その他">その他</option>
             </select>
-            <input type="text" placeholder="理由を入力してください"
-              style="display: none; margin-top: 5px; width: 90%; padding: 5px;">
+            <input type="text" placeholder="理由を入力してください" class="input-reason-other">
           </td>
-          <td style="border: 1px solid #ccc; padding: 10px;">PRD-045</td>
-          <td style="border: 1px solid #ccc; padding: 10px;">スイッチC</td>
-          <td style="border: 1px solid #ccc; padding: 10px;">株式会社ABC</td>
-          <td style="border: 1px solid #ccc; padding: 10px;">2026/09/30</td>
+          <td>PRD-045</td>
+          <td>スイッチC</td>
+          <td>株式会社ABC</td>
+          <td>2026/09/30</td>
+          <td>200,000</td>
         </tr>
       </tbody>
     </table>
 
     <!-- アクションボタンエリア -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 30px;">
+    <div class="action-area">
       <!-- 戻るボタン -->
-      <button onclick="location.href='//ここに戻る先のやついれる*/'"
-        style="padding: 10px 20px; cursor: pointer; background-color: #fff; border: 1px solid #ccc; border-radius: 3px;">
+      <button onclick="location.href='contract.index.html'" class="btn-back">
         戻る
       </button>
 
       <!-- 保存・確定ボタン -->
       <div>
-        <button
-          style="padding: 10px 20px; margin-right: 10px; cursor: pointer; background-color: #fff; border: 1px solid #ccc; border-radius: 3px;">
+        <button class="btn-save">
           一時保存する
         </button>
-        <button
-          style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer;">
+        <button class="btn-submit">
           確定して営業部へ通知する
         </button>
       </div>
