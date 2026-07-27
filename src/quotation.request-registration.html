@@ -2,31 +2,232 @@
 <html lang="ja">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>ABC社見積依頼登録 | ABC社Webサイト保守管理システム</title>
-	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<link href="css/style.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ABC社見積依頼登録 | ABC社Webサイト保守管理システム</title>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
-	<div id="header-placeholder"></div>
-	<div class="container-fluid">
-		<div class="row">
-			<main class="col-12 px-4 py-4">
-				<a href="quotation.index.html" class="btn btn-outline-secondary shadow-sm">← 戻る</a>
-				<div class="border-bottom mt-4">
-					<h1>ABC社見積依頼登録</h1>
-					<p>ABC社から受け取った見積依頼をシステムに登録します。</p>
-				</div>
-				<div class="mt-4">
-					未完成ですよ～
-				</div>
-			</main>
-		</div>
-	</div>
-	<script src="js/bootstrap.bundle.min.js"></script>
-	<script src="js/header-loader.js"></script>
+  <div id="header-placeholder"></div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <main class="col-12 px-4 py-4">
+        <!-- 戻るボタンとタイトル -->
+        <a href="quotation.index.html" class="btn btn-outline-secondary shadow-sm mb-3">← 見積機能トップへ戻る</a>
+        <div class="border-bottom pb-2 mb-4">
+          <h1 class="h3">ABC社見積依頼登録</h1>
+          <p class="text-muted mb-0">ABC社から受け取った保守見積依頼（定期・随時）をシステムに登録します。</p>
+        </div>
+
+        <form action="quotation.index.html" method="get">
+          <!-- ① 基本情報エリア -->
+          <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light">
+              <h5 class="card-title mb-0">1. 依頼基本情報</h5>
+            </div>
+            <div class="card-body">
+              <div class="row g-3">
+                <div class="col-md-3">
+                  <label class="form-label fw-bold">見積依頼ID</label>
+                  <input type="text" class="form-control bg-light" value="REQ-202602-001" readonly>
+                  <div class="form-text">システムで自動採番されます</div>
+                </div>
+
+                <div class="col-md-3">
+                  <label class="form-label fw-bold">依頼区分 <span class="text-danger">*</span></label>
+                  <div>
+                    <div class="form-check form-check-inline mt-1">
+                      <input class="form-check-input" type="radio" name="requestType" id="typeRegular" value="regular" checked>
+                      <label class="form-check-label" for="typeRegular">定期（年度更新）</label>
+                    </div>
+                    <div class="form-check form-check-inline mt-1">
+                      <input class="form-check-input" type="radio" name="requestType" id="typeAdhoc" value="adhoc">
+                      <label class="form-check-label" for="typeAdhoc">随時（新規・追加）</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <label for="requestDate" class="form-label fw-bold">依頼受付日 <span class="text-danger">*</span></label>
+                  <input type="date" class="form-control" id="requestDate" value="2026-02-05" required>
+                </div>
+
+                <div class="col-md-3">
+                  <label for="deadlineDate" class="form-label fw-bold">見積回答希望期限 <span class="text-danger">*</span></label>
+                  <input type="date" class="form-control" id="deadlineDate" value="2026-02-20" required>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="requestTitle" class="form-label fw-bold">依頼件名 <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="requestTitle" value="2026年度 ABC社Webシステム保守費用見積依頼" required>
+                </div>
+
+                <div class="col-md-3">
+                  <label class="form-label fw-bold">登録担当者</label>
+                  <input type="text" class="form-control bg-light" value="営業部 山田太郎" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ② 明細エリア（対象製品の特定） -->
+          <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light d-flex justify-content-between align-middle py-2">
+              <h5 class="card-title mb-0 lh-base">2. 保守見積対象製品の特定</h5>
+              <div>
+                <!-- 2月上旬の定期更新用ボタン -->
+                <button type="button" class="btn btn-success btn-sm me-2">
+                  🔄 次年度更新対象製品を一括読み込み
+                </button>
+                <!-- 随時追加用ボタン（モーダル起動） -->
+                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#productSearchModal">
+                  🔍 製品マスターから個別に選んで追加
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <p class="small text-muted mb-3">
+                ※手打ちは不要です。「一括読み込み」で次年度更新対象を自動抽出するか、「マスターから追加」で製品を選択してください。
+              </p>
+
+              <!-- 対象製品一覧テーブル -->
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle">
+                  <thead class="table-light text-center">
+                    <tr>
+                      <th style="width: 50px;">#</th>
+                      <th style="width: 120px;">製品コード</th>
+                      <th>製品名 / 型番</th>
+                      <th style="width: 90px;">区分</th>
+                      <th>設置場所 / 用途</th>
+                      <th style="width: 130px;">現行保守期限</th>
+                      <th style="width: 90px;">数量</th>
+                      <th>備考</th>
+                      <th style="width: 70px;">削除</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- サンプルデータ 1 -->
+                    <tr>
+                      <td class="text-center">1</td>
+                      <td class="text-center"><code>HW-00102</code></td>
+                      <td class="fw-bold">WP/ProQurve Switch 2424 (HH2081-RPS)</td>
+                      <td class="text-center"><span class="badge bg-primary">H/W</span></td>
+                      <td>JSU社内LAN セグメントA</td>
+                      <td class="text-center text-danger fw-bold">2026/03/31</td>
+                      <td>
+                        <input type="number" class="form-control form-control-sm text-end" value="2" min="1">
+                      </td>
+                      <td><input type="text" class="form-control form-control-sm" placeholder="メモ入力可"></td>
+                      <td class="text-center">
+                        <button type="button" class="btn btn-outline-danger btn-sm py-0 px-2">×</button>
+                      </td>
+                    </tr>
+                    <!-- サンプルデータ 2 -->
+                    <tr>
+                      <td class="text-center">2</td>
+                      <td class="text-center"><code>SW-00045</code></td>
+                      <td class="fw-bold">CyberGarden 3</td>
+                      <td class="text-center"><span class="badge bg-info text-dark">S/W</span></td>
+                      <td>Web/DBサーバ (WebLogServer2.0)</td>
+                      <td class="text-center text-danger fw-bold">2026/03/31</td>
+                      <td>
+                        <input type="number" class="form-control form-control-sm text-end" value="1" min="1">
+                      </td>
+                      <td><input type="text" class="form-control form-control-sm" placeholder="メモ入力可"></td>
+                      <td class="text-center">
+                        <button type="button" class="btn btn-outline-danger btn-sm py-0 px-2">×</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="text-end text-muted small mt-2">
+                選択中： <strong>2 件</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- ボタンエリア -->
+          <div class="d-flex justify-content-end gap-2 mb-5">
+            <a href="quotation.index.html" class="btn btn-light border px-4">キャンセル</a>
+            <button type="button" class="btn btn-secondary px-4">一時保存</button>
+            <button type="submit" class="btn btn-primary px-5 shadow">見積依頼を登録する</button>
+          </div>
+        </form>
+      </main>
+    </div>
+  </div>
+
+  <!-- ③ 製品検索モーダル（ポップアップ画面） -->
+  <div class="modal fade" id="productSearchModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">製品マスター検索・選択</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-2 mb-3">
+            <div class="col-md-5">
+              <input type="text" class="form-control" placeholder="製品名・型番で検索...">
+            </div>
+            <div class="col-md-4">
+              <select class="form-select">
+                <option value="">すべての区分 (H/W・S/W)</option>
+                <option value="HW">H/W（ハードウェア）</option>
+                <option value="SW">S/W（ソフトウェア）</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <button type="button" class="btn btn-secondary w-100">検索</button>
+            </div>
+          </div>
+
+          <div class="table-responsive" style="max-height: 300px;">
+            <table class="table table-sm table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 40px;">選択</th>
+                  <th>コード</th>
+                  <th>製品名 / 型番</th>
+                  <th>区分</th>
+                  <th>保守期限</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+                  <td><code>HW-00201</code></td>
+                  <td>WP/L2001 サーバ</td>
+                  <td><span class="badge bg-primary">H/W</span></td>
+                  <td>2026/03/31</td>
+                </tr>
+                <tr>
+                  <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+                  <td><code>SW-00102</code></td>
+                  <td>SVFD for WEB/PDF Java</td>
+                  <td><span class="badge bg-info text-dark">S/W</span></td>
+                  <td>2026/03/31</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">選択した製品を追加</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/header-loader.js"></script>
 </body>
 
 </html>
