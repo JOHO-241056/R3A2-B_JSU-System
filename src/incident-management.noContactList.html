@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>障害対応ダッシュボード - 保守管理システム</title>
+    <link rel="stylesheet" href="incident-management.style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>障害対応ダッシュボード</h1>
+        </header>
+
+        <p>※行をクリックすると詳細と連絡先が表示されます。同じ機器IDのデータは最新のもののみ表示されます。</p>
+
+        <!-- ▼ 未連絡リスト ▼ -->
+        <h2 style="color: #d9534f; margin-top: 20px;">🚨 未連絡リスト（至急対応）</h2>
+        <table class="data-table" style="margin-bottom: 40px;">
+            <thead>
+                <tr>
+                    <th style="width: 25%;">発生日時</th>
+                    <th style="width: 25%;">機器名 (ID)</th>
+                    <th>障害内容</th>
+                </tr>
+            </thead>
+            <tbody id="uncontacted-list-body"></tbody>
+        </table>
+
+        <!-- ▼ 連絡済リスト ▼ -->
+        <h2 style="color: #28a745;">✅ 連絡済・対応中リスト</h2>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th style="width: 25%;">発生日時</th>
+                    <th style="width: 25%;">機器名 (ID)</th>
+                    <th>障害内容</th>
+                    <th style="width: 15%;">ステータス</th>
+                </tr>
+            </thead>
+            <tbody id="contacted-list-body"></tbody>
+        </table>
+
+        <div class="form-actions" style="margin-top: 40px;">
+            <button type="button" class="btn-secondary" onclick="window.location.href='incident-management.failureRecord.html'">新規障害を記録する画面へ</button>
+        </div>
+    </div>
+
+    <!-- ▼ 詳細表示用のポップアップ（モーダル） ▼ -->
+    <div id="detail-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2 id="modal-title">障害・機器詳細</h2>
+            
+            <div id="modal-body">
+                <!-- ここにJavaScriptで詳細テーブルと備考欄が挿入されます -->
+            </div>
+
+            <!-- ボタンのコンテナ -->
+            <div id="modal-actions-container" class="modal-actions form-actions" style="display: flex; gap: 15px; margin-top: 20px;">
+                <!-- ここにJavaScriptでボタンが挿入されます -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mockDatabase = {
+            'SRV-001': { equipName: 'DBサーバ', prodId: 'S-9900X', prodName: 'メインデータベースサーバー', company: '株式会社サーバーメンテプロ', phone: '03-1234-5678', outOfHoursPhone: '090-9999-8888' },
+            'NW-002': { equipName: 'ルータ', prodId: 'RT-88X', prodName: 'コア・ルーター', company: 'ネットワークサポート株式会社', phone: '03-9876-5432' }
+        };
+
+        function renderTables() {
+            let incidents = JSON.parse(localStorage.getItem('incidentList')) || [];
+            
+            // 【機能追加】最新のデータを優先し、機器IDの重複を排除する
+            incidents.sort((a, b) => b.id - a.id); // ID（登録時刻）の大きい順＝最新順に並べ替え
+            
+            const uniqueIncidents = [];
+            const seenEquipIds = new Set();
+
+            for (const incident of incidents) {
+                // まだその機器IDを見ていなければ（＝一番新しいデータなら）配列に追加
+                if (!seenEquipIds.has(incident.equipId)) {
+                    seenEquipIds.add(incident.equipId);
+                    uniqueIncidents.push(incident);
+                }
+            }
+
+            const uncontactedBody = document.getElementById('uncontacted-list-body');
+            const contactedBody = document.getElementById('contacted-list-body');
+
+            uncontactedBody.innerHTML = '';
+            contactedBody.innerHTML = '';
+
+            let uncontactedCount = 0;
+            let contactedCount = 0;
+
+            // 重複排除したデータ(uniqueIncidents)を使ってテーブルを描画
+            uniqueIncidents.forEach(function(incident) {
+                const tr = document.createElement('tr');
+                tr.classList.add('clickable-row');
+                tr.onclick = function() { openModal(incident.id); };
+
+                if (incident.status === '未連絡') {
+                    uncontactedCount++;
+                    tr.style.backgroundColor = '#fff3f3';
+                    tr.innerHTML = `
+                        <td>${incident.datetime}</td>
+                        <td><strong>${incident.equipName}</strong><br><small>${incident.equipId}</small></td>
+                        <td class="truncate-text">${incident.details}</td>
+                    `;
+                    uncontactedBody.appendChild(tr);
+                } else {
+                    contactedCount++;
+                    tr.innerHTML = `
+                        <td>${incident.datetime}</td>
+                        <td><strong>${incident.equipName}</strong><br><small>${incident.equipId}</small></td>
+                        <td class="truncate-text">${incident.details}</td>
+                        <td style="color: #28a745; font-weight: bold;">${incident.status}</td>
+                    `;
+                    contactedBody.appendChild(tr);
+                }
+            });
+
+            if (uncontactedCount === 0) uncontactedBody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #666;">未連絡の障害はありません</td></tr>';
+            if (contactedCount === 0) contactedBody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #666;">連絡済みの障害はありません</td></tr>';
+        }
+
+        function openModal(id) {
+            const incidents = JSON.parse(localStorage.getItem('incidentList')) || [];
+            const incident = incidents.find(i => i.id === id);
+            if (!incident) return;
+
+            const dbInfo = mockDatabase[incident.equipId] || { company: '不明', phone: '-' };
+            // 既存のメモがあれば取得、なければ空文字
+            const currentMemo = incident.memo || '';
+
+            // モーダルの中身（備考欄を追加）
+            let html = `
+                <table class="data-table">
+                    <tr><th>発生日時</th><td>${incident.datetime}</td></tr>
+                    <tr><th>機器ID / 名称</th><td>${incident.equipId} / ${incident.equipName}</td></tr>
+                    <tr><th>障害内容</th><td class="pre-wrap">${incident.details}</td></tr>
+                </table>
+                <h3 style="margin-top:20px; font-size:16px;">連絡先情報</h3>
+                <table class="data-table highlight">
+                    <tr><th>保守依頼先</th><td>${dbInfo.company}</td></tr>
+                    <tr><th>電話番号</th><td class="phone-number">${dbInfo.phone}</td></tr>
+            `;
+            if (dbInfo.outOfHoursPhone) {
+                html += `<tr><th>時間外連絡先</th><td class="phone-number out-of-hours-number">${dbInfo.outOfHoursPhone}</td></tr>`;
+            }
+            html += `</table>`;
+
+            // 【機能追加】備考入力欄
+            html += `
+                <h3 style="margin-top:20px; font-size:16px;">備考（対応記録など）</h3>
+                <textarea id="modal-memo" style="width: 100%; height: 80px; padding: 10px; border-radius: 4px; border: 1px solid #ccc; font-family: inherit; resize: vertical; box-sizing: border-box;">${currentMemo}</textarea>
+            `;
+
+            document.getElementById('modal-body').innerHTML = html;
+
+            // ボタンの表示制御
+            let actionHtml = '';
+            if (incident.status === '未連絡') {
+                actionHtml += `<button class="btn-success" onclick="saveIncident(${incident.id}, '連絡済')" style="flex: 2;">📞 連絡完了として保存</button>`;
+            }
+            actionHtml += `<button class="btn-primary" onclick="saveIncident(${incident.id}, null)" style="flex: 2;">💾 備考のみ保存</button>`;
+            actionHtml += `<button class="btn-secondary" onclick="closeModal()" style="flex: 1;">閉じる</button>`;
+
+            document.getElementById('modal-actions-container').innerHTML = actionHtml;
+            document.getElementById('detail-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('detail-modal').classList.add('hidden');
+        }
+
+        // 【機能追加】ステータスと備考を保存する共通関数
+        function saveIncident(id, newStatus) {
+            const memoValue = document.getElementById('modal-memo').value;
+            let incidents = JSON.parse(localStorage.getItem('incidentList')) || [];
+            
+            incidents = incidents.map(function(incident) {
+                if (incident.id === id) {
+                    if (newStatus) incident.status = newStatus; // ステータス変更があれば上書き
+                    incident.memo = memoValue; // 備考は常に上書き
+                }
+                return incident;
+            });
+
+            localStorage.setItem('incidentList', JSON.stringify(incidents));
+            closeModal();
+            renderTables();
+        }
+
+        window.onload = renderTables;
+    </script>
+</body>
+</html>

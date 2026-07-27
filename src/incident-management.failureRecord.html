@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>障害記録・連絡 - 保守管理システム</title>
+    <link rel="stylesheet" href="incident-management.style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>障害対応管理システム</h1>
+        </header>
+
+        <!-- ▼ 入力画面 ▼ -->
+        <main id="input-section">
+            <h2>新規障害の記録</h2>
+            <form id="incident-form">
+                <div class="form-group">
+                    <label for="incident-datetime">障害発生（発見）日時 <span class="required">必須</span></label>
+                    <input type="datetime-local" id="incident-datetime" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="equipment-id">障害機器ID <span class="required">必須</span></label>
+                    <input type="text" id="equipment-id" placeholder="例: SRV-001" required>
+                    <!-- ▼ エラーメッセージ（初期状態では非表示） ▼ -->
+                    <span id="equipment-id-error" class="error-text hidden">登録されていない機器IDです。正しいIDを確認して再入力してください。</span>
+                    <small>※テスト用DB: 「SRV-001」か「NW-002」で検索してください。</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="incident-details">障害内容 <span class="required">必須</span></label>
+                    <textarea id="incident-details" rows="5" placeholder="エラーの症状や、現在のシステムの状況を詳細に記入してください" required></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">記録して連絡先を確認する</button>
+                </div>
+            </form>
+        </main>
+
+        <!-- ▼ 結果・連絡画面（初期状態では非表示） ▼ -->
+        <main id="result-section" class="hidden">
+            <div class="alert-success">
+                <strong>✓ 記録が完了しました</strong>
+            </div>
+
+            <h3>入力内容の確認</h3>
+            <table class="data-table">
+                <tr>
+                    <th>障害発生（発見）日時</th>
+                    <td id="res-datetime"></td>
+                </tr>
+                <tr>
+                    <th>障害機器ID</th>
+                    <td id="res-equip-id"></td>
+                </tr>
+                <tr>
+                    <th>障害内容</th>
+                    <td id="res-details" class="pre-wrap"></td>
+                </tr>
+            </table>
+
+            <h3>機器・保守連絡先情報</h3>
+            <table class="data-table highlight">
+                <tr>
+                    <th>障害機器ID</th>
+                    <td id="db-equip-id"></td>
+                </tr>
+                <tr>
+                    <th>機器名称</th>
+                    <td id="db-equip-name"></td>
+                </tr>
+                <tr>
+                    <th>製品ID</th>
+                    <td id="db-prod-id"></td>
+                </tr>
+                <tr>
+                    <th>製品名</th>
+                    <td id="db-prod-name"></td>
+                </tr>
+                <tr>
+                    <th>保守依頼先（企業名）</th>
+                    <td id="db-company"></td>
+                </tr>
+                <tr>
+                    <th>電話番号（通常）</th>
+                    <td id="db-phone" class="phone-number"></td>
+                </tr>
+                <tr id="row-out-of-hours">
+                    <th>時間外緊急連絡先</th>
+                    <td id="db-out-of-hours-phone" class="phone-number out-of-hours-number"></td>
+                </tr>
+            </table>
+
+            <div class="form-actions">
+                <button type="button" class="btn-secondary" onclick="returnHome()">ホームに戻る</button>
+                <button type="button" class="btn-secondary" onclick="resetForm()">新しい障害を記録する</button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const mockDatabase = {
+            'SRV-001': { 
+                equipName: 'DBサーバ', 
+                prodId: 'S-9900X', 
+                prodName: 'メインデータベースサーバー', 
+                company: '株式会社サーバーメンテプロ', 
+                phone: '03-1234-5678',
+                outOfHoursPhone: '090-9999-8888'
+            },
+            'NW-002': { 
+                equipName: 'ルータ', 
+                prodId: 'RT-88X', 
+                prodName: 'コア・ルーター', 
+                company: 'ネットワークサポート株式会社', 
+                phone: '03-9876-5432'
+            }
+        };
+
+        // ユーザーが機器IDを入力し直した時にエラー表示を消す処理
+        document.getElementById('equipment-id').addEventListener('input', function() {
+            document.getElementById('equipment-id-error').classList.add('hidden');
+            this.classList.remove('error-input');
+        });
+
+        document.getElementById('incident-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const equipId = document.getElementById('equipment-id').value;
+
+            // ★ 追加: データベースにIDが存在するかチェック ★
+            if (!mockDatabase[equipId]) {
+                // 存在しない場合はエラーメッセージを表示して処理をストップ
+                document.getElementById('equipment-id-error').classList.remove('hidden');
+                document.getElementById('equipment-id').classList.add('error-input');
+                return; // ここで処理を抜けるため、次の画面には進まない
+            }
+
+            const datetime = document.getElementById('incident-datetime').value;
+            const details = document.getElementById('incident-details').value;
+
+            const formattedDate = new Date(datetime).toLocaleString('ja-JP', {
+                year: 'numeric', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit'
+            });
+
+            // 再表示エリアへの反映
+            document.getElementById('res-datetime').textContent = formattedDate;
+            document.getElementById('res-equip-id').textContent = equipId;
+            document.getElementById('res-details').textContent = details;
+
+            // DB検索（事前チェックを通過しているので確実にデータが入る）
+            const dbInfo = mockDatabase[equipId];
+
+            // 検索結果をテーブルに反映
+            document.getElementById('db-equip-id').textContent = equipId;
+            document.getElementById('db-equip-name').textContent = dbInfo.equipName
+            document.getElementById('db-prod-id').textContent = dbInfo.prodId;
+            document.getElementById('db-prod-name').textContent = dbInfo.prodName;
+            document.getElementById('db-company').textContent = dbInfo.company;
+            document.getElementById('db-phone').textContent = dbInfo.phone;
+
+            // 時間外連絡先の表示制御
+            const outOfHoursRow = document.getElementById('row-out-of-hours');
+            if (dbInfo.outOfHoursPhone) {
+                document.getElementById('db-out-of-hours-phone').textContent = dbInfo.outOfHoursPhone;
+                outOfHoursRow.classList.remove('hidden');
+            } else {
+                outOfHoursRow.classList.add('hidden');
+            }
+
+            // ここでlocalStorageに記録する処理を追加
+            const newIncident = {
+                id: Date.now(), // データの一意のIDとして現在時刻を使う
+                datetime: formattedDate,
+                equipId: equipId,
+                equipName: dbInfo.equipName,
+                details: details,
+                status: '未連絡' // 初期ステータス
+            };
+
+            // 2. 過去のデータがあれば取得し、なければ空の配列を作る
+            let incidents = JSON.parse(localStorage.getItem('incidentList')) || [];
+            
+            // 3. 今回のデータを配列に追加して、ブラウザに保存し直す
+            incidents.push(newIncident);
+            localStorage.setItem('incidentList', JSON.stringify(incidents));
+
+            // 画面の切り替え
+            document.getElementById('input-section').classList.add('hidden');
+            document.getElementById('result-section').classList.remove('hidden');
+        });
+
+        function resetForm() {
+            document.getElementById('incident-form').reset();
+            // エラー表示等も初期状態に戻す
+            document.getElementById('equipment-id-error').classList.add('hidden');
+            document.getElementById('equipment-id').classList.remove('error-input');
+            
+            document.getElementById('result-section').classList.add('hidden');
+            document.getElementById('input-section').classList.remove('hidden');
+        }
+
+        function returnHome() {
+            document.getElementById('incident-form').reset();
+            // エラー表示等も初期状態に戻す
+            document.getElementById('equipment-id-error').classList.add('hidden');
+            document.getElementById('equipment-id').classList.remove('error-input');
+
+            //あとで消す(遷移先をindex.htmlに戻す)
+            window.location.href = 'incident-management.noContactList.html';
+        }
+    </script>
+</body>
+</html>
