@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>保守契約依頼書 検索・ダウンロード画面</title>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/contract.download.css">
+</head>
+<body>
+  <div id="header-placeholder"></div>
+  <div class="container">
+    <h2 class="page-title">保守契約依頼書 検索・ダウンロード画面（購買部）</h2>
+    <p>保守会社名などを検索し、対象の依頼書をPDFとしてダウンロードしてください。</p>
+
+    <!-- 検索パネル -->
+    <div class="search-panel">
+      <div class="search-row mb-10">
+        <label class="search-label">保守会社名:</label>
+        <input type="text" placeholder="例: 株式会社ABC" class="form-input">
+        
+        <label class="search-label ml-20">依頼書ID:</label>
+        <input type="text" placeholder="例: REQ-2026-001" class="form-input">
+      </div>
+      <div class="search-row">
+        <label class="search-label">契約期間:</label>
+        <input type="date" class="form-input-date"> ～ <input type="date" class="form-input-date ml-10">
+        
+        <button class="btn btn-dark ml-20">検索</button>
+      </div>
+    </div>
+
+    <!-- 検索結果一覧 -->
+    <h3 class="section-title">検索結果</h3>
+    
+    <!-- ▼ 会社ごとのまとまり（パネル） 1社目 ▼ -->
+    <div class="company-group-panel">
+      <div class="company-header">
+        <h4 class="company-name">株式会社ABC <span class="req-id">(依頼書ID: REQ-2026-001)</span></h4>
+        <!-- 会社単位で一括ダウンロードするボタン -->
+        <button onclick="alert('株式会社ABC宛の依頼書（PDF）をダウンロードします。');" class="btn btn-outline">
+          この会社の依頼書をダウンロード
+        </button>
+      </div>
+
+      <!-- 製品明細のテーブル -->
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>対象製品名</th>
+            <th>シリアルNo.</th>
+            <th>契約期間</th>
+            <th>見積金額(円)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>コアスイッチ RTX-9000</td>
+            <td>SN-A1234567</td>
+            <td>2026/10/01 ～ 2027/09/30</td>
+            <td class="text-right">200,000</td>
+          </tr>
+          <tr>
+            <td>ファイアウォール FW-500</td>
+            <td>SN-B9876543</td>
+            <td>2026/10/01 ～ 2027/09/30</td>
+            <td class="text-right">100,000</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <!-- 合計金額 -->
+      <div class="total-amount">
+        合算見積金額: 300,000 円
+      </div>
+    </div>
+    <!-- ▲ 1社目 ここまで ▲ -->
+
+    <!-- ▼ 会社ごとのまとまり（パネル） 2社目 ▼ -->
+    <!-- <div class="company-group-panel">
+      <div class="company-header">
+        <h4 class="company-name">XYZネット <span class="req-id">(依頼書ID: REQ-2026-002)</span></h4>
+        <button onclick="alert('XYZネット宛の依頼書（PDF）をダウンロードします。');" class="btn btn-outline">
+          この会社の依頼書をダウンロード
+        </button>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>対象製品名</th>
+            <th>シリアルNo.</th>
+            <th>契約期間</th>
+            <th>見積金額(円)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>L2スイッチ SW-100</td>
+            <td>SN-X9999999</td>
+            <td>2026/11/01 ～ 2028/10/31</td>
+            <td class="text-right">150,000</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <div class="total-amount">
+        合算見積金額: 150,000 円
+      </div>
+    </div> -->
+    <!-- ▲ 2社目 ここまで ▲ -->
+
+    <div class="action-area">
+      <button onclick="alert('ホーム画面へ遷移します。');" class="btn btn-default">
+        &laquo; ホーム画面へ戻る
+      </button>
+    </div>
+  </div>
+  <script src="js/bootstrap.bundle.min.js"></script>
+	<script src="js/header-loader.js"></script>
+</body>
+</html>
