@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>保守報告書入力 | ABC社Webサイト保守管理システム</title>
+    <link rel="stylesheet" href="css/incident-management.style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>保守報告書入力</h1>
+        </header>
+
+        <p>※報告書を追加・確認したい障害対応を選択してください。</p>
+
+        <!-- ▼ 連絡済・対応中リスト ▼ -->
+        <table class="data-table" style="margin-bottom: 30px;">
+            <thead>
+                <tr>
+                    <th style="width: 25%;">発生日時</th>
+                    <th style="width: 25%;">機器名 (ID)</th>
+                    <th>障害内容</th>
+                </tr>
+            </thead>
+            <tbody id="active-incident-list">
+                <!-- JavaScriptで連絡済データが挿入されます -->
+            </tbody>
+        </table>
+
+        <!-- ▼ 保守報告書履歴エリア（初期状態は非表示） ▼ -->
+        <div id="report-history-section" class="hidden" style="margin-top: 40px; border-top: 2px dashed #ccc; padding-top: 20px;">
+            <h2 style="color: #007bff;">📄 保守報告書 履歴: <span id="selected-equip-name"></span></h2>
+            
+            <table class="data-table" style="margin-bottom: 20px;">
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">保守日時</th>
+                        <th style="width: 25%;">企業名</th>
+                        <th>保守内容</th>
+                        <th style="width: 20%;">次回保守日</th>
+                    </tr>
+                </thead>
+                <tbody id="report-list-body">
+                    <!-- 過去の報告書がここに表示されます -->
+                </tbody>
+            </table>
+
+            <div class="form-actions">
+                <button type="button" class="btn-primary" onclick="openUploadModal()">新しい報告書を記録する</button>
+            </div>
+        </div>
+        
+        <div class="form-actions" style="margin-top: 40px;">
+            <button type="button" class="btn-secondary" onclick="window.location.href='incident-management.index.html'">障害対応トップへ</button>
+        </div>
+    </div>
+
+    <!-- ▼ 報告書アップロード・編集用ポップアップ（モーダル） ▼ -->
+    <div id="upload-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2>報告書の読み込みと登録</h2>
+            <p style="margin-bottom: 20px; font-size: 14px; color: #666;">PDFをアップロードすると自動で内容を読み取ります。誤りがある場合は手動で修正してください。</p>
+            
+            <!-- 疑似的なファイル選択ボタン -->
+            <div style="margin-bottom: 15px;">
+                <label class="btn-primary" style="display: inline-block; cursor: pointer;">
+                    ファイルを選択（pdf）
+                    <input type="file" id="mock-file-input" accept=".pdf" style="display: none;" onchange="simulateOCR()">
+                </label>
+            </div>
+            
+            <!-- ファイル名表示エリア（初期は非表示） -->
+            <p id="file-name-display" class="hidden" style="margin-bottom: 20px; font-weight: bold; color: #333;">
+                ファイル名：<span id="file-name-text"></span>
+            </p>
+
+            <!-- OCR読み取り結果（初期は非表示） -->
+            <div id="ocr-result-area" class="hidden">
+                <div class="form-group">
+                    <label for="ocr-date">保守日時</label>
+                    <input type="text" id="ocr-date" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="ocr-company">企業名</label>
+                    <input type="text" id="ocr-company" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="ocr-details">保守内容</label>
+                    <textarea id="ocr-details" class="form-control" style="height: 100px;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="ocr-next-date">次回保守日</label>
+                    <input type="text" id="ocr-next-date" class="form-control" placeholder="完了の場合は「なし」など">
+                </div>
+
+                <div class="modal-actions form-actions" style="display: flex; gap: 15px; margin-top: 30px;">
+                    <button class="btn-success" onclick="saveReport()" style="flex: 2;">💾 記録する</button>
+                    <button class="btn-secondary" onclick="closeUploadModal()" style="flex: 1;">キャンセル</button>
+                </div>
+            </div>
+
+            <!-- キャンセルボタン（ファイル選択前用） -->
+            <div id="initial-cancel-btn" class="modal-actions form-actions" style="margin-top: 20px;">
+                <button class="btn-secondary" onclick="closeUploadModal()" style="width: 100%;">閉じる</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentIncidentId = null;
+
+        // 画面読み込み時に「連絡済」のリストを表示
+        window.onload = function() {
+            const incidents = JSON.parse(localStorage.getItem('incidentList')) || [];
+            const activeBody = document.getElementById('active-incident-list');
+            activeBody.innerHTML = '';
+
+            let count = 0;
+            // 連絡済のデータだけを抽出して降順（最新順）にする
+            const contactedIncidents = incidents.filter(i => i.status === '連絡済').sort((a, b) => b.id - a.id);
+
+            contactedIncidents.forEach(function(incident) {
+                count++;
+                const tr = document.createElement('tr');
+                tr.classList.add('clickable-row');
+                tr.onclick = function() { selectIncident(incident.id); };
+                
+                tr.innerHTML = `
+                    <td>${incident.datetime}</td>
+                    <td><strong>${incident.equipName}</strong><br><small>${incident.equipId}</small></td>
+                    <td class="truncate-text">${incident.details}</td>
+                `;
+                activeBody.appendChild(tr);
+            });
+
+            if (count === 0) {
+                activeBody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #666;">現在、対応中の障害はありません</td></tr>';
+            }
+        };
+
+        // 障害を選択した時に、その障害に紐づく報告書履歴を表示
+        function selectIncident(id) {
+            currentIncidentId = id;
+            const incidents = JSON.parse(localStorage.getItem('incidentList')) || [];
+            const incident = incidents.find(i => i.id === id);
+            
+            document.getElementById('selected-equip-name').textContent = `${incident.equipName} (${incident.equipId})`;
+            
+            renderReportList();
+            document.getElementById('report-history-section').classList.remove('hidden');
+        }
+
+        function renderReportList() {
+            const incidents = JSON.parse(localStorage.getItem('incidentList')) || [];
+            const incident = incidents.find(i => i.id === currentIncidentId);
+            const reportBody = document.getElementById('report-list-body');
+            reportBody.innerHTML = '';
+
+            const reports = incident.reports || [];
+
+            if (reports.length === 0) {
+                reportBody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #666;">登録された報告書はまだありません</td></tr>';
+                return;
+            }
+
+            reports.forEach(report => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${report.date}</td>
+                    <td>${report.company}</td>
+                    <td class="pre-wrap">${report.details}</td>
+                    <td>${report.nextDate || 'なし'}</td>
+                `;
+                reportBody.appendChild(tr);
+            });
+        }
+
+        // モーダルを開く
+        function openUploadModal() {
+            // フォームをリセット
+            document.getElementById('mock-file-input').value = '';
+            document.getElementById('file-name-display').classList.add('hidden');
+            document.getElementById('ocr-result-area').classList.add('hidden');
+            document.getElementById('initial-cancel-btn').classList.remove('hidden');
+            
+            document.getElementById('upload-modal').classList.remove('hidden');
+        }
+
+        function closeUploadModal() {
+            document.getElementById('upload-modal').classList.add('hidden');
+        }
+
+        // ファイルが選択されたらOCR結果を疑似的に表示する
+        function simulateOCR() {
+            const fileInput = document.getElementById('mock-file-input');
+            if (fileInput.files.length === 0) return;
+
+            // ファイル名を表示 (ご指定の固定名に変更)
+            document.getElementById('file-name-text').textContent = 'SRV001_1.pdf';
+            document.getElementById('file-name-display').classList.remove('hidden');
+
+            // 読み取った体でテキストボックスにデータを自動入力
+            document.getElementById('ocr-date').value = new Date().toLocaleString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+            document.getElementById('ocr-company').value = '株式会社サーバーメンテプロ';
+            document.getElementById('ocr-details').value = '電源ユニットの異常を確認。予備パーツと交換し、正常起動および動作テストを完了しました。';
+            document.getElementById('ocr-next-date').value = 'なし（対応完了）';
+
+            // 入力エリアを表示し、初期キャンセルボタンを隠す
+            document.getElementById('ocr-result-area').classList.remove('hidden');
+            document.getElementById('initial-cancel-btn').classList.add('hidden');
+        }
+
+        // 入力された報告書データを保存
+        function saveReport() {
+            const date = document.getElementById('ocr-date').value;
+            const company = document.getElementById('ocr-company').value;
+            const details = document.getElementById('ocr-details').value;
+            const nextDate = document.getElementById('ocr-next-date').value;
+
+            let incidents = JSON.parse(localStorage.getItem('incidentList')) || [];
+            
+            // 現在選択している障害データにレポートを追加
+            incidents = incidents.map(function(incident) {
+                if (incident.id === currentIncidentId) {
+                    if (!incident.reports) incident.reports = [];
+                    incident.reports.push({
+                        date: date,
+                        company: company,
+                        details: details,
+                        nextDate: nextDate
+                    });
+                }
+                return incident;
+            });
+
+            localStorage.setItem('incidentList', JSON.stringify(incidents));
+            closeUploadModal();
+            renderReportList(); // 履歴リストを更新
+        }
+    </script>
+</body>
+</html>

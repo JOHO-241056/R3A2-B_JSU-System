@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>障害記録・連絡 - 保守管理システム</title>
+    <title>障害発生登録 | ABC社Webサイト保守管理システム</title>
     <link rel="stylesheet" href="css/incident-management.style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>障害対応管理システム</h1>
+            <h1>障害発生登録</h1>
         </header>
 
         <!-- ▼ 入力画面 ▼ -->
@@ -34,8 +34,9 @@
                     <textarea id="incident-details" rows="5" placeholder="エラーの症状や、現在のシステムの状況を詳細に記入してください" required></textarea>
                 </div>
 
-                <div class="form-actions">
-                    <button type="submit" class="btn-submit">記録して連絡先を確認する</button>
+                <div class="form-actions" style="display: flex; gap: 15px; justify-content: center; align-items: center; margin-top: 30px;">
+                    <button type="submit" class="btn-submit" style="max-width: none; width: auto;">記録して連絡先を確認する</button>
+                    <button type="button" class="btn-secondary" onclick="returnHome()">障害対応トップへ</button>
                 </div>
             </form>
         </main>
@@ -95,8 +96,8 @@
             </table>
 
             <div class="form-actions">
-                <button type="button" class="btn-secondary" onclick="returnHome()">ホームに戻る</button>
                 <button type="button" class="btn-secondary" onclick="resetForm()">新しい障害を記録する</button>
+                <button type="button" class="btn-secondary" onclick="returnHome()">障害対応トップに戻る</button>
             </div>
         </main>
     </div>
@@ -210,8 +211,7 @@
             document.getElementById('equipment-id-error').classList.add('hidden');
             document.getElementById('equipment-id').classList.remove('error-input');
 
-            //あとで消す(遷移先をindex.htmlに戻す)
-            window.location.href = 'incident-management.noContactList.html';
+            window.location.href = 'incident-management.index.html';
         }
     </script>
 </body>
