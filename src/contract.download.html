@@ -10,8 +10,8 @@
 <body>
   <div id="header-placeholder"></div>
   <div class="container">
-    <h2 class="page-title">保守契約依頼書 検索・ダウンロード画面（購買部）</h2>
-    <p>保守会社名などを検索し、対象の依頼書をPDFとしてダウンロードしてください。</p>
+    <h2 class="page-title">保守契約明細、依頼書 検索・ダウンロード画面（購買部）</h2>
+    <p>保守会社名などを検索し、対象の明細と依頼書をPDFとしてダウンロードしてください。</p>
 
     <!-- 検索パネル -->
     <div class="search-panel">
@@ -39,7 +39,7 @@
         <h4 class="company-name">株式会社ABC <span class="req-id">(依頼書ID: REQ-2026-001)</span></h4>
         <!-- 会社単位で一括ダウンロードするボタン -->
         <button onclick="alert('株式会社ABC宛の依頼書（PDF）をダウンロードします。');" class="btn btn-outline">
-          この会社の依頼書をダウンロード
+          この会社の明細、依頼書をダウンロード
         </button>
       </div>
 
@@ -48,23 +48,23 @@
         <thead>
           <tr>
             <th>対象製品名</th>
-            <th>シリアルNo.</th>
+            <th>製品ID</th>
             <th>契約期間</th>
             <th>見積金額(円)</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>コアスイッチ RTX-9000</td>
-            <td>SN-A1234567</td>
-            <td>2026/10/01 ～ 2027/09/30</td>
-            <td class="text-right">200,000</td>
-          </tr>
-          <tr>
-            <td>ファイアウォール FW-500</td>
-            <td>SN-B9876543</td>
+            <td>メインサーバーA</td>
+            <td>PDR-001</td>
             <td>2026/10/01 ～ 2027/09/30</td>
             <td class="text-right">100,000</td>
+          </tr>
+          <tr>
+            <td>スイッチC</td>
+            <td>PDR-045</td>
+            <td>2026/10/01 ～ 2027/09/30</td>
+            <td class="text-right">200,000</td>
           </tr>
         </tbody>
       </table>
