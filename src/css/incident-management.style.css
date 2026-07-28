@@ -209,6 +209,7 @@ button {
 .data-table th {
     background-color: var(--secondary-color);
     width: 35%;
+    white-space: nowrap;
 }
 
 .data-table td {

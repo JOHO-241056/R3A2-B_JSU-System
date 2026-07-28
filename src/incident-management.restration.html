@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>復旧報告書作成 | ABC社Webサイト保守管理システム</title>
+    <link rel="stylesheet" href="css/incident-management.style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>復旧報告書作成</h1>
+        </header>
+
+        <p>※復旧報告書を作成する障害対応（連絡済）を選択してください。</p>
+
+        <!-- ▼ 1. 連絡済・対応中リスト ▼ -->
+        <table class="data-table" style="margin-bottom: 30px;">
+            <thead>
+                <tr>
+                    <th style="width: 25%;">発生日時</th>
+                    <th style="width: 25%;">機器名 (ID)</th>
+                    <th>障害内容</th>
+                </tr>
+            </thead>
+            <tbody id="active-incident-list">
+                <!-- JavaScriptでデータが挿入されます -->
+            </tbody>
+        </table>
+
+        <!-- ▼ 2. 入力フォームエリア（初期状態は非表示） ▼ -->
+        <div id="form-section" class="hidden" style="border-top: 2px dashed #ccc; padding-top: 20px; margin-top: 30px;">
+            <h2 style="color: #007bff; margin-bottom: 20px;">📝 報告書 内容入力</h2>
+            <form id="recovery-form" onsubmit="goToConfirm(event)">
+                <div class="form-group">
+                    <label>障害発生日時</label>
+                    <input type="text" id="input-datetime" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>障害内容</label>
+                    <textarea id="input-details" class="form-control" style="height: 80px;" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>機器ID</label>
+                    <input type="text" id="input-equip-id" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>機器名称</label>
+                    <input type="text" id="input-equip-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>製品ID</label>
+                    <input type="text" id="input-prod-id" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>製品名</label>
+                    <input type="text" id="input-prod-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>保守依頼先（企業名）</label>
+                    <input type="text" id="input-company" class="form-control" required>
+                </div>
+                <hr style="margin: 25px 0; border: none; border-top: 1px solid #eee;">
+                <div class="form-group">
+                    <label>復旧日時</label>
+                    <input type="datetime-local" id="input-recovery-datetime" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>保守内容</label>
+                    <textarea id="input-work-details" class="form-control" style="height: 100px;" placeholder="実施した復旧作業の内容を入力してください" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>備考</label>
+                    <textarea id="input-memo" class="form-control" style="height: 80px;" placeholder="特記事項があれば入力してください"></textarea>
+                </div>
+
+                <div class="form-actions" style="margin-top: 30px;">
+                    <button type="submit" class="btn-primary">確認する</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ▼ 3. 確認画面エリア（初期状態は非表示） ▼ -->
+        <div id="confirm-section" class="hidden" style="border-top: 2px dashed #007bff; padding-top: 20px; margin-top: 30px;">
+            <h2 style="color: #28a745; margin-bottom: 20px;">🔍 復旧報告書 内容確認</h2>
+            <p style="margin-bottom: 20px; color: #666;">以下の内容で復旧報告書を作成します。よろしければ作成ボタンを押してください。</p>
+
+            <table class="data-table">
+                <tr><th style="width: 30%;">障害発生日時</th><td id="confirm-datetime"></td></tr>
+                <tr><th>障害内容</th><td id="confirm-details" class="pre-wrap"></td></tr>
+                <tr><th>機器ID / 名称</th><td id="confirm-equip"></td></tr>
+                <tr><th>製品ID / 製品名</th><td id="confirm-prod"></td></tr>
+                <tr><th>保守依頼先</th><td id="confirm-company"></td></tr>
+                <tr><th>復旧日時</th><td id="confirm-recovery-datetime" style="font-weight: bold; color: #28a745;"></td></tr>
+                <tr><th>保守内容</th><td id="confirm-work-details" class="pre-wrap"></td></tr>
+                <tr><th>備考</th><td id="confirm-memo" class="pre-wrap"></td></tr>
+            </table>
+
+            <div class="form-actions" style="display: flex; gap: 15px; margin-top: 30px;">
+                <button type="button" class="btn-success" onclick="submitReport()" style="flex: 2;">復旧報告書を作成する</button>
+                <button type="button" class="btn-secondary" onclick="backToEdit()" style="flex: 1;">修正する</button>
+            </div>
+        </div>
+
+        <div class="form-actions" style="margin-top: 40px;">
+            <button type="button" class="btn-secondary" onclick="window.location.href='incident-management.index.html'">障害対応トップへ</button>
+        </div>
+    </div>
+
+    <script>
+        const mockDatabase = {
+            'SRV-001': { equipName: 'DBサーバ', prodId: 'S-9900X', prodName: 'メインデータベースサーバー', company: '株式会社サーバーメンテプロ', phone: '03-1234-5678', outOfHoursPhone: '090-9999-8888' },
+            'NW-002': { equipName: 'ルータ', prodId: 'RT-88X', prodName: 'コア・ルーター', company: 'ネットワークサポート株式会社', phone: '03-9876-5432' }
+        };
+
+        let selectedIncidentId = null;
+
+        // ページ読み込み時に「連絡済」データを取得してテーブル描画
+        window.onload = function() {
+            renderActiveList();
+        };
+
+        function renderActiveList() {
+            const incidents = JSON.parse(localStorage.getItem('incidentList')) || [];
+            const activeBody = document.getElementById('active-incident-list');
+            activeBody.innerHTML = '';
+
+            // ステータスが「連絡済」のものだけを抽出
+            const contactedIncidents = incidents.filter(i => i.status === '連絡済').sort((a, b) => b.id - a.id);
+
+            if (contactedIncidents.length === 0) {
+                activeBody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #666;">現在、復旧報告対象の障害（連絡済）はありません</td></tr>';
+                return;
+            }
+
+            contactedIncidents.forEach(function(incident) {
+                const tr = document.createElement('tr');
+                tr.classList.add('clickable-row');
+                tr.onclick = function() { selectIncident(incident.id); };
+                
+                tr.innerHTML = `
+                    <td>${incident.datetime}</td>
+                    <td><strong>${incident.equipName}</strong><br><small>${incident.equipId}</small></td>
+                    <td class="truncate-text">${incident.details}</td>
+                `;
+                activeBody.appendChild(tr);
+            });
+        }
+
+        // 障害データを選択した時にフォームへ初期値をセット
+        function selectIncident(id) {
+            selectedIncidentId = id;
+            const incidents = JSON.parse(localStorage.getItem('incidentList')) || [];
+            const incident = incidents.find(i => i.id === id);
+            if (!incident) return;
+
+            const dbInfo = mockDatabase[incident.equipId] || { prodId: '-', prodName: '-', company: '-' };
+
+            // 〇 自動入力項目
+            document.getElementById('input-datetime').value = incident.datetime;
+            document.getElementById('input-details').value = incident.details;
+            document.getElementById('input-equip-id').value = incident.equipId;
+            document.getElementById('input-equip-name').value = incident.equipName;
+            document.getElementById('input-prod-id').value = dbInfo.prodId;
+            document.getElementById('input-prod-name').value = dbInfo.prodName;
+            document.getElementById('input-company').value = dbInfo.company;
+
+            // ・ 手入力項目（保守報告書データやメモがあれば初期値として入れる）
+            const lastReport = (incident.reports && incident.reports.length > 0) ? incident.reports[incident.reports.length - 1] : null;
+            
+            /*
+            // 現在時刻をデフォルト復旧日時として提案
+            const nowFormatted = new Date().toLocaleString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+            document.getElementById('input-recovery-datetime').value = nowFormatted;
+            document.getElementById('input-work-details').value = lastReport ? lastReport.details : '';
+            document.getElementById('input-memo').value = incident.memo || '';
+            */
+
+            // 確認画面を開いていた場合は閉じ、フォーム画面を表示
+            document.getElementById('confirm-section').classList.add('hidden');
+            document.getElementById('form-section').classList.remove('hidden');
+        }
+
+        // 「確認する」ボタンクリック時の処理
+        function goToConfirm(e) {
+            e.preventDefault();
+
+            // フォームの値を確認テーブルに反映
+            document.getElementById('confirm-datetime').textContent = document.getElementById('input-datetime').value;
+            document.getElementById('confirm-details').textContent = document.getElementById('input-details').value;
+            document.getElementById('confirm-equip').textContent = `${document.getElementById('input-equip-id').value} / ${document.getElementById('input-equip-name').value}`;
+            document.getElementById('confirm-prod').textContent = `${document.getElementById('input-prod-id').value} / ${document.getElementById('input-prod-name').value}`;
+            document.getElementById('confirm-company').textContent = document.getElementById('input-company').value;
+            document.getElementById('confirm-recovery-datetime').textContent = document.getElementById('input-recovery-datetime').value;
+            document.getElementById('confirm-work-details').textContent = document.getElementById('input-work-details').value;
+            document.getElementById('confirm-memo').textContent = document.getElementById('input-memo').value || 'なし';
+
+            // 入力エリアを隠して確認エリアを表示
+            document.getElementById('form-section').classList.add('hidden');
+            document.getElementById('confirm-section').classList.remove('hidden');
+        }
+
+        // 修正するボタンで入力画面に戻る
+        function backToEdit() {
+            document.getElementById('confirm-section').classList.add('hidden');
+            document.getElementById('form-section').classList.remove('hidden');
+        }
+
+        // 「復旧報告書を作成する」完了処理
+        // 「復旧報告書を作成する」完了処理
+        function submitReport() {
+            let incidents = JSON.parse(localStorage.getItem('incidentList')) || [];
+
+            // 対象データのステータスを「復旧完了」に書き換える
+            incidents = incidents.map(function(incident) {
+                if (incident.id === selectedIncidentId) {
+                    incident.status = '復旧完了';
+                    // 完成した復旧報告データも保持しておく
+                    incident.recoveryReport = {
+                        datetime: document.getElementById('input-datetime').value,
+                        details: document.getElementById('input-details').value,
+                        equipId: document.getElementById('input-equip-id').value,
+                        equipName: document.getElementById('input-equip-name').value,
+                        prodId: document.getElementById('input-prod-id').value,
+                        prodName: document.getElementById('input-prod-name').value,
+                        company: document.getElementById('input-company').value,
+                        recoveryDatetime: document.getElementById('input-recovery-datetime').value,
+                        workDetails: document.getElementById('input-work-details').value,
+                        memo: document.getElementById('input-memo').value
+                    };
+                }
+                return incident;
+            });
+
+            // localStorageを更新
+            localStorage.setItem('incidentList', JSON.stringify(incidents));
+
+            alert('復旧報告書を保存しました。');
+
+            // ▼ 変更：ダッシュボードではなく「復旧報告書作成画面」を再読み込みする ▼
+            window.location.href = 'incident-management.restration.html';
+        }
+    </script>
+</body>
+</html>
