@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSU見積書出力 | ABC社Webサイト保守管理システム</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+<div id="header-placeholder"></div>
+<div class="container-fluid mb-5">
+    <div class="row">
+        <main class="col-12 px-4">
+            <!-- ページヘッダー -->
+            <a href="quotation.index.html" class="btn btn-outline-secondary shadow-sm mt-3">←
+                JSU見積機能トップへ戻る</a>
+            <div class="mt-3 pb-2 d-flex justify-content-between align-items-end">
+                <div>
+                    <h1>JSU見積書出力</h1>
+                    <p class="text-muted mb-0">
+                        完成したJSU見積書（表紙・添え状・明細）の内容を確認・調整し、PDFで出力します。</p>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary btn-lg shadow">PDFプレビュー・出力</button>
+                </div>
+            </div>
+
+            <!-- 見積データ検索エリア -->
+            <form class="p-3 my-3 bg-light border rounded row g-3 align-items-center">
+                <div class="col-auto">
+                    <label for="jsuQuotationId" class="col-form-label fw-bold">JSU見積ID</label>
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="jsuQuotationId" value="EST-2026-001"
+                           placeholder="例: EST-2026-001">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-secondary">見積データを呼び出す</button>
+                </div>
+            </form>
+
+            <!-- 1. 基本情報・宛名エリア -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">1. 見積基本情報・宛名設定</h5>
+                    <span class="badge bg-light text-dark">見積番号: M26-ABC002</span>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="customerName" class="form-label fw-bold">提出先（宛名）</label>
+                            <input type="text" class="form-control" id="customerName"
+                                   value="ABC株式会社 運用管理部 部長 田中淳一 様">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="issueDate" class="form-label fw-bold">発行日</label>
+                            <input type="date" class="form-control" id="issueDate" value="2026-03-10">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="revision" class="form-label fw-bold">版数（リビジョン）</label>
+                            <input type="text" class="form-control" id="revision" value="第2版">
+                        </div>
+                        <div class="col-md-12">
+                            <label for="subject" class="form-label fw-bold">件名</label>
+                            <input type="text" class="form-control" id="subject"
+                                   value="ABC社 Online Shopping Service 保守契約 (2026年度保守契約更新分)">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="contractPeriod" class="form-label fw-bold">契約期間</label>
+                            <input type="text" class="form-control" id="contractPeriod"
+                                   value="2026年4月1日～2027年3月31日">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="paymentTerms" class="form-label fw-bold">支払条件</label>
+                            <input type="text" class="form-control" id="paymentTerms" value="別途打合せ通り">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="expirationDate" class="form-label fw-bold">見積有効期限</label>
+                            <input type="text" class="form-control" id="expirationDate" value="発効日より60日間">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. 表紙・添え状・承認欄の設定エリア -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">2. 表紙・添え状・承認印 設定</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <!-- 添え状：特記事項 -->
+                        <div>
+                            <label for="specialNotes"
+                                   class="form-label fw-bold">添え状・特記事項（挨拶文の下に印字されます）</label>
+                            <textarea class="form-control" id="specialNotes" rows="5">さて、このたび 「ABC社 Online Shopping Service」 システムに導入しております製品についての2018年度保守契約更新費用に関するお見積りをご提示させていただきます。
+なお、本見積りに記載の製品は、弊社にて保守契約を担当させていただくことになっている製品についてのみであり、貴社にて直接ご契約いただく製品については、 本見積りに含まれておりません。
+また、現在開発中の「明細書ペーパレス化」 案件にて導入する製品に関する保守費用につきましても、本見積りに含まれておりません。</textarea>
+                            <div class="form-text">※定型挨拶文（拝啓〜）はPDF出力時に自動挿入されます。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. 最終見積金額 調整エリア -->
+            <div class="card mb-4 border-warning shadow-sm">
+                <div class="card-header bg-warning text-dark fw-bold">
+                    3. 最終見積金額の調整（手修正）
+                </div>
+                <div class="card-body bg-light">
+                    <div class="row align-items-center g-3">
+                        <div class="col-md-4">
+                            <label for="calculatedAmount"
+                                   class="form-label fw-bold text-secondary">明細積算金額（税別）</label>
+                            <input type="text" class="form-control bg-white" id="calculatedAmount" value="¥19,682,100"
+                                   readonly>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="finalAmount"
+                                   class="form-label fw-bold text-danger">最終提示見積金額（税別・手入力）</label>
+                            <div class="input-group">
+                                <span class="input-group-text">￥</span>
+                                <input type="number" class="form-control form-control-lg fw-bold text-danger"
+                                       id="finalAmount" value="19682100">
+                            </div>
+                            <div class="form-text">※特別値引きや端数調整が必要な場合は数値を直接修正してください。</div>
+                        </div>
+                        <div class="col-md-3 text-end">
+                            <button type="button" class="btn btn-outline-danger w-100 fw-bold">金額変更を確定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. 費用明細テーブル（数量形式） -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">4. 費用明細一覧</h5>
+                    <small class="text-muted">※表内のセルを直接編集して文字や単価を微調整できます</small>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover align-middle mb-0 text-nowrap">
+                            <thead class="table-light text-center">
+                            <tr>
+                                <th scope="col" style="width: 50px;">No.</th>
+                                <th scope="col">件名（製品・サービス名）</th>
+                                <th scope="col" style="width: 80px;">数量</th>
+                                <th scope="col" style="width: 140px;">単価（円）</th>
+                                <th scope="col" style="width: 160px;">費用（円）</th>
+                                <th scope="col">備考（保守ベンダ）</th>
+                            </tr>
+                            </thead>
+                            <tbody contenteditable="true">
+                            <tr>
+                                <td class="text-center">1</td>
+                                <td>トラフィックコントローラ:BIC-IP</td>
+                                <td class="text-end">4</td>
+                                <td class="text-end">¥52,500</td>
+                                <td class="text-end fw-bold">¥210,000</td>
+                                <td>NTT-MEC</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">2</td>
+                                <td>セキュリティサーバ:WP/L2001</td>
+                                <td class="text-end">2</td>
+                                <td class="text-end">¥346,300</td>
+                                <td class="text-end fw-bold">¥692,600</td>
+                                <td>日本ヒューレット・パッカード</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">3</td>
+                                <td>セキュリティサーバ:WP/LC2001</td>
+                                <td class="text-end">2</td>
+                                <td class="text-end">¥346,300</td>
+                                <td class="text-end fw-bold">¥692,600</td>
+                                <td>日本ヒューレット・パッカード</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">4</td>
+                                <td>FireWall: NOMIA IPP330</td>
+                                <td class="text-end">6</td>
+                                <td class="text-end">¥296,000</td>
+                                <td class="text-end fw-bold">¥1,776,000</td>
+                                <td>ユニラテックサポート</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">5</td>
+                                <td>センサPC: QISCOM/IDS</td>
+                                <td class="text-end">16</td>
+                                <td class="text-end">¥63,000</td>
+                                <td class="text-end fw-bold">¥1,008,000</td>
+                                <td>ビューケム</td>
+                            </tr>
+                            </tbody>
+                            <tfoot class="table-group-divider bg-light">
+                            <tr>
+                                <th colspan="4" class="text-end">合計（消費税別）</th>
+                                <th class="text-end text-primary fs-5 fw-bold">¥19,682,100</th>
+                                <th></th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 画面下部アクションバー -->
+            <div class="d-flex justify-content-end gap-3 pb-5">
+                <button type="button" class="btn btn-outline-primary btn-lg">入力・調整内容を保存</button>
+                <button type="button" class="btn btn-primary btn-lg shadow px-5">PDFプレビュー・出力</button>
+            </div>
+
+        </main>
+    </div>
+</div>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/header-loader.js"></script>
+</body>
+
+</html>
