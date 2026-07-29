@@ -14,7 +14,7 @@
   <div id="header-placeholder"></div>
   <div class="container">
     <h2 class="page-title">保守契約明細確認・編集画面（技術部）</h2>
-    <p>確認する保守契約明細IDを選択、または製品IDを検索して、除外する製品にチェックを入れてください。</p>
+    <p>確認する保守契約明細IDを選択、または製品IDを検索して、明細から除外する製品にチェックを入れてください。</p>
 
     <!-- 検索・絞り込みパネル -->
     <div class="search-panel">
@@ -33,12 +33,11 @@
       </div>
     </div>
 
-    <!-- 明細テーブル（選択・検索結果） -->
+    <!-- 1つ目の表：明細テーブル -->
     <table class="detail-table">
       <thead>
         <tr>
           <th class="col-exclude">除外</th>
-          <th class="col-reason">除外理由</th>
           <th>製品ID</th>
           <th>製品名</th>
           <th>保守会社</th>
@@ -50,16 +49,6 @@
         <!-- 1行目 -->
         <tr>
           <td class="cell-center"><input type="checkbox"></td>
-          <td>
-            <select class="select-reason"
-              onchange="this.nextElementSibling.style.display = (this.value === 'その他') ? 'block' : 'none';">
-              <option value="">選択してください</option>
-              <option value="リプレース予定">リプレース予定</option>
-              <option value="廃棄予定">廃棄予定</option>
-              <option value="その他">その他</option>
-            </select>
-            <input type="text" placeholder="理由を入力してください" class="input-reason-other">
-          </td>
           <td>PRD-001</td>
           <td>メインサーバーA</td>
           <td>株式会社ABC</td>
@@ -69,16 +58,6 @@
         <!-- 2行目 -->
         <tr>
           <td class="cell-center"><input type="checkbox" checked></td>
-          <td>
-            <select class="select-reason"
-              onchange="this.nextElementSibling.style.display = (this.value === 'その他') ? 'block' : 'none';">
-              <option value="">選択してください</option>
-              <option value="リプレース予定" selected>リプレース予定</option>
-              <option value="廃棄予定">廃棄予定</option>
-              <option value="その他">その他</option>
-            </select>
-            <input type="text" placeholder="理由を入力してください" class="input-reason-other">
-          </td>
           <td>PRD-045</td>
           <td>スイッチC</td>
           <td>株式会社ABC</td>
@@ -87,6 +66,52 @@
         </tr>
       </tbody>
     </table>
+
+    <!-- 2つ目の表：【修正】製品の検索・追加エリア -->
+    <div class="add-product-panel">
+      <h3 class="panel-subtitle">＋ 保守契約明細に登録する製品を追加する</h3>
+      
+      <!-- 【修正】製品追加用の検索条件（製品ID検索に変更） -->
+      <div class="search-row">
+        <label class="search-label">製品ID検索: </label>
+        <input type="text" placeholder="例: PRD-002" class="input-keyword">
+        <button class="btn-search">検索</button>
+      </div>
+
+      <!-- 【修正】製品追加用のテーブル（選択欄を削除） -->
+      <table class="detail-table">
+        <thead>
+          <tr>
+            <th class="col-reason">登録理由</th>
+            <th>製品ID</th>
+            <th>製品名</th>
+            <th>保守会社</th>
+            <th>予定金額(円)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <select class="select-reason"
+                onchange="this.nextElementSibling.style.display = (this.value === 'その他') ? 'block' : 'none';">
+                <option value="">選択してください</option>
+                <option value="リプレース予定">リプレース予定</option>
+                <option value="廃棄予定">廃棄予定</option>
+                <option value="その他">その他</option>
+              </select>
+              <input type="text" placeholder="理由を入力してください" class="input-reason-other">
+            </td>
+            <td>PRD-002</td>
+            <td>サブサーバーB</td>
+            <td>株式会社ABC</td>
+            <td>50,000</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <!-- 【修正】ボタン名を仕様に合わせて変更 -->
+      <button class="btn-add-action">この製品を上の明細に追加する</button>
+    </div>
 
     <!-- アクションボタンエリア -->
     <div class="action-area">
@@ -105,7 +130,9 @@
     </div>
   </div>
   <script src="js/bootstrap.bundle.min.js"></script>
-	<script src="js/header-loader.js"></script>
+  <script src="js/header-loader.js"></script>
 </body>
+
+
 
 </html>
