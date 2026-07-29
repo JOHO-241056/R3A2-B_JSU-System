@@ -15,7 +15,7 @@
             <h1>復旧報告書作成</h1>
         </header>
 
-        <p>※復旧報告書を作成する障害対応（連絡済）を選択してください。</p>
+        <p>※復旧報告書を作成する障害を選択してください。</p>
 
         <!-- ▼ 1. 連絡済・対応中リスト ▼ -->
         <table class="data-table" style="margin-bottom: 30px;">
@@ -60,7 +60,7 @@
                     <input type="text" id="input-prod-name" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label>保守依頼先（企業名）</label>
+                    <label>保守依頼先</label>
                     <input type="text" id="input-company" class="form-control" required>
                 </div>
                 <hr style="margin: 25px 0; border: none; border-top: 1px solid #eee;">
@@ -112,8 +112,21 @@
 
     <script>
         const mockDatabase = {
-            'SRV-001': { equipName: 'DBサーバ', prodId: 'S-9900X', prodName: 'メインデータベースサーバー', company: '株式会社サーバーメンテプロ', phone: '03-1234-5678', outOfHoursPhone: '090-9999-8888' },
-            'NW-002': { equipName: 'ルータ', prodId: 'RT-88X', prodName: 'コア・ルーター', company: 'ネットワークサポート株式会社', phone: '03-9876-5432' }
+            'D-12345678': { 
+                equipName: 'DBサーバ', 
+                prodId: 'P-1234', 
+                prodName: 'メインデータベースサーバー', 
+                company: '株式会社サーバーメンテプロ', 
+                phone: '03-1234-5678',
+                outOfHoursPhone: '090-9999-8888'
+            },
+            'D-87654321': { 
+                equipName: 'ルータ', 
+                prodId: 'P-4321', 
+                prodName: 'コア・ルーター', 
+                company: 'ネットワークサポート株式会社', 
+                phone: '03-9876-5432'
+            }
         };
 
         let selectedIncidentId = null;

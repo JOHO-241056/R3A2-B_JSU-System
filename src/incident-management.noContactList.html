@@ -15,7 +15,7 @@
             <h1>保守依頼連絡状況</h1>
         </header>
 
-        <p>※行をクリックすると詳細と連絡先が表示されます。同じ機器IDのデータは最新のもののみ表示されます。</p>
+        <p>※行をクリックすると詳細と連絡先が表示されます。</p>
 
         <!-- ▼ 未連絡リスト ▼ -->
         <h2 style="color: #d9534f; margin-top: 20px;">🚨 未連絡リスト（至急対応）</h2>
@@ -67,8 +67,21 @@
 
     <script>
         const mockDatabase = {
-            'SRV-001': { equipName: 'DBサーバ', prodId: 'S-9900X', prodName: 'メインデータベースサーバー', company: '株式会社サーバーメンテプロ', phone: '03-1234-5678', outOfHoursPhone: '090-9999-8888' },
-            'NW-002': { equipName: 'ルータ', prodId: 'RT-88X', prodName: 'コア・ルーター', company: 'ネットワークサポート株式会社', phone: '03-9876-5432' }
+            'D-12345678': { 
+                equipName: 'DBサーバ', 
+                prodId: 'P-1234', 
+                prodName: 'メインデータベースサーバー', 
+                company: '株式会社サーバーメンテプロ', 
+                phone: '03-1234-5678',
+                outOfHoursPhone: '090-9999-8888'
+            },
+            'D-87654321': { 
+                equipName: 'ルータ', 
+                prodId: 'P-4321', 
+                prodName: 'コア・ルーター', 
+                company: 'ネットワークサポート株式会社', 
+                phone: '03-9876-5432'
+            }
         };
 
         function renderTables() {

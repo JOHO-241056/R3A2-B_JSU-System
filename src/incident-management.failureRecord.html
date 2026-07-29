@@ -20,16 +20,16 @@
             <h2>新規障害の記録</h2>
             <form id="incident-form">
                 <div class="form-group">
-                    <label for="incident-datetime">障害発生（発見）日時 <span class="required">必須</span></label>
+                    <label for="incident-datetime">障害発生日時 <span class="required">必須</span></label>
                     <input type="datetime-local" id="incident-datetime" required>
                 </div>
 
                 <div class="form-group">
                     <label for="equipment-id">障害機器ID <span class="required">必須</span></label>
-                    <input type="text" id="equipment-id" placeholder="例: SRV-001" required>
+                    <input type="text" id="equipment-id" placeholder="例: D-12345678" required>
                     <!-- ▼ エラーメッセージ（初期状態では非表示） ▼ -->
                     <span id="equipment-id-error" class="error-text hidden">登録されていない機器IDです。正しいIDを確認して再入力してください。</span>
-                    <small>※テスト用DB: 「SRV-001」か「NW-002」で検索してください。</small>
+                    <small>※テスト用: 「D-12345678」か「D-87654321」で検索してください。</small>
                 </div>
 
                 <div class="form-group">
@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="form-actions" style="display: flex; gap: 15px; justify-content: center; align-items: center; margin-top: 30px;">
-                    <button type="submit" class="btn-submit" style="max-width: none; width: auto;">記録して連絡先を確認する</button>
+                    <button type="submit" class="btn-submit" style="max-width: none; width: auto;">障害を記録する</button>
                     <button type="button" class="btn-secondary" onclick="returnHome()">障害対応トップへ</button>
                 </div>
             </form>
@@ -53,7 +53,7 @@
             <h3>入力内容の確認</h3>
             <table class="data-table">
                 <tr>
-                    <th>障害発生（発見）日時</th>
+                    <th>障害発生日時</th>
                     <td id="res-datetime"></td>
                 </tr>
                 <tr>
@@ -68,7 +68,7 @@
 
             <h3>機器・保守連絡先情報</h3>
             <table class="data-table highlight">
-                <tr>
+            <tr>
                     <th>障害機器ID</th>
                     <td id="db-equip-id"></td>
                 </tr>
@@ -85,11 +85,11 @@
                     <td id="db-prod-name"></td>
                 </tr>
                 <tr>
-                    <th>保守依頼先（企業名）</th>
+                    <th>保守依頼先</th>
                     <td id="db-company"></td>
                 </tr>
                 <tr>
-                    <th>電話番号（通常）</th>
+                    <th>電話番号</th>
                     <td id="db-phone" class="phone-number"></td>
                 </tr>
                 <tr id="row-out-of-hours">
@@ -107,17 +107,17 @@
 
     <script>
         const mockDatabase = {
-            'SRV-001': { 
+            'D-12345678': { 
                 equipName: 'DBサーバ', 
-                prodId: 'S-9900X', 
+                prodId: 'P-1234', 
                 prodName: 'メインデータベースサーバー', 
                 company: '株式会社サーバーメンテプロ', 
                 phone: '03-1234-5678',
                 outOfHoursPhone: '090-9999-8888'
             },
-            'NW-002': { 
+            'D-87654321': { 
                 equipName: 'ルータ', 
-                prodId: 'RT-88X', 
+                prodId: 'P-4321', 
                 prodName: 'コア・ルーター', 
                 company: 'ネットワークサポート株式会社', 
                 phone: '03-9876-5432'

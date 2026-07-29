@@ -15,7 +15,7 @@
             <h1>保守報告書入力</h1>
         </header>
 
-        <p>※報告書を追加・確認したい障害対応を選択してください。</p>
+        <p>※報告書を追加・確認したい障害を選択してください。</p>
 
         <!-- ▼ 連絡済・対応中リスト ▼ -->
         <table class="data-table" style="margin-bottom: 30px;">
@@ -200,7 +200,7 @@
             if (fileInput.files.length === 0) return;
 
             // ファイル名を表示 (ご指定の固定名に変更)
-            document.getElementById('file-name-text').textContent = 'SRV001_1.pdf';
+            document.getElementById('file-name-text').textContent = 'D-12345678_1.pdf';
             document.getElementById('file-name-display').classList.remove('hidden');
 
             // 読み取った体でテキストボックスにデータを自動入力
